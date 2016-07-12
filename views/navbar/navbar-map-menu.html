@@ -7,60 +7,6 @@
 <div id="filterForm" class="filterForm">
  <div>
    <span class="close-filter" onclick="$('#filterForm').slideToggle();">close</span>
-    <div class="topFilters">
-      <div class="filterSizeBox">
-        <div class="filterFormTitle">Project Size</div>
-        <div class="filter-size">
-          <span>Size:</span>
-          <select id="filterMinSize">
-            <option value="0">No Min</option>
-            <option value="1000">$1k</option>
-            <option value="100000">$10k</option>
-            <option value="500000">$50k</option>
-            <option value="100000">$100k</option>
-            <option value="250000">$250k</option>
-            <option value="500000">$500k</option>
-            <option value="750000">$750k</option>
-            <option value="1000000">$1M</option>
-            <option value="5000000">$5M</option>
-            <option value="10000000">$10M</option>
-            <option value="25000000">$25M</option>
-            <option value="50000000">$50M</option>
-            <option value="100000000">$100M</option>
-            <option value="250000000">$250M</option>
-            <option value="500000000">$500M</option>
-            <option value="750000000">$750M</option>
-            <option value="1000000000">$1B</option>
-            <option value="5000000000">$5B</option>
-            <option value="10000000000">$10B</option>
-          </select>
-          to
-          <select id="filterMaxSize">
-            <option value="1000000000000">No Max</option>
-            <option value="1000">$1k</option>
-            <option value="100000">$10k</option>
-            <option value="500000">$50k</option>
-            <option value="100000">$100k</option>
-            <option value="250000">$250k</option>
-            <option value="500000">$500k</option>
-            <option value="750000">$750k</option>
-            <option value="1000000">$1M</option>
-            <option value="5000000">$5M</option>
-            <option value="10000000">$10M</option>
-            <option value="25000000">$25M</option>
-            <option value="50000000">$50M</option>
-            <option value="100000000">$100M</option>
-            <option value="250000000">$250M</option>
-            <option value="500000000">$500M</option>
-            <option value="750000000">$750M</option>
-            <option value="1000000000">$1B</option>
-            <option value="5000000000">$5B</option>
-            <option value="10000000000">$10B</option>
-          </select>
-        </div>
-      </div>
-      <div class="clearfix"></div>
-    </div>
 
     <div class="filterFormColumn filterFormColumn0">
       <div class="sector-types">
@@ -76,6 +22,7 @@
         </div>
       </div>
     </div>
+
     <div class="filterFormColumn filterFormColumn1">
       <div class="country-choices">
         <div class="filterFormTitle">Country Choices</div>
@@ -88,6 +35,7 @@
         </div>
       </div>
     </div>
+
     <div class="filterFormColumn filterFormColumn2">
       <div class="region-choices">
         <div class="filterFormTitle">Region Choices</div>
@@ -100,6 +48,53 @@
         </div>
       </div>
     </div>
+
+
+    <div class = "spacer"></div>
+    <div class = "topFilters"></div> <!-- Makes a grid view for filter list -->
+
+
+    <div class="filterFormColumn filterFormColumn0">
+      <div class="sector-types">
+        <div class="filterFormTitle">Sub Region</div>
+        <span class='unselect-all sectors active' onclick="_state.setFilter('sector-all-remove',null,false);">Unselect All</span>
+        <span class="select-all sectors" onclick="_state.setFilter('sector-all-select',null,false);">Select All</span>
+        <br/>
+        <br/>
+        <div class='form-group filter sector' style="height: inherit;">
+          <div class="filter-sectors-checkboxes" style="overflow-y: auto;">
+            <!--dynamically-populated-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filterFormColumn filterFormColumn1">
+      <div class="region-choices">
+        <div class="filterFormTitle">Obligation Fiscal Year</div>
+        <span class='unselect-all regions active' onclick="_state.setFilter('region-all-remove',null,false);">Unselect All</span>
+        <span class="select-all regions" onclick="_state.setFilter('region-all-select',null,false);">Select All</span>
+        <br/>
+        <br/>
+        <div class="filter-region-checkboxes filter-regions active">
+          <!--dynamically populated-->
+        </div>
+      </div>
+    </div>
+
+    <div class="filterFormColumn filterFormColumn2">
+      <div class="region-choices">
+        <div class="filterFormTitle">Fund Source</div>
+        <span class='unselect-all regions active' onclick="_state.setFilter('region-all-remove',null,false);">Unselect All</span>
+        <span class="select-all regions" onclick="_state.setFilter('region-all-select',null,false);">Select All</span>
+        <br/>
+        <br/>
+        <div class="filter-region-checkboxes filter-regions active">
+          <!--dynamically populated-->
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 

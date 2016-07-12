@@ -584,7 +584,7 @@ function highlightMarkerWithFid(fid) {
 function poulateDetailedEntryView(data) {
 
   if (!data) { return }
-
+  // TODO: UPDATE THIS WITH NEW FIELDS
   var INDEX_OF_PROJECT_TITLE = 0;
   var INDEX_OF_PROJECT_SIZE = 1;
   var INDEX_OF_SECTORS = 2;
@@ -634,15 +634,30 @@ function poulateDetailedEntryView(data) {
 
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
   detailedView += "<dl class=\"dl-horizontal\">";
+  detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_SECTORS]);                        // TODO: CHANGE TO OPERATING UNIT FROM SQL
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Sector(s)') + createTagHtml('dd', data[INDEX_OF_SECTORS]);
-  detailedView += createTagHtml('dt', 'Date Added') + createTagHtml('dd', formatDate(data[INDEX_OF_DATE_ADDED]));
-  detailedView += createTagHtml('dt', 'Primary Funding Source') + createTagHtml('dd', data[INDEX_OF_PRIMARY_FUNDING_SOURCE]);
-  detailedView += createTagHtml('dt', 'Project Size') + createTagHtml('dd', data[INDEX_OF_FORMATTED_PROJECT_SIZE]);
-  detailedView += createTagHtml('dt', 'Status') + createTagHtml('dd', data[INDEX_OF_STATUS]);
+  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_FORMATTED_PROJECT_SIZE]);           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
+  detailedView += createTagHtml('dt', 'Appropriation Fiscal Year');
+  detailedView += createTagHtml('dt', 'Obligation Fiscal Year');
+  detailedView += createTagHtml('dt', 'Fund Source');
+  detailedView += createTagHtml('dt', 'Implementing Partner');
+  detailedView += createTagHtml('dt', 'Award Number');
+  detailedView += createTagHtml('dt', 'Funding Mechanism');
+  detailedView += createTagHtml('dt', 'Performance Start Date');
+  detailedView += createTagHtml('dt', 'Performance End Date');
+  detailedView += createTagHtml('dt', 'Region');
+  detailedView += createTagHtml('dt', 'Sub Region');
+  detailedView += createTagHtml('dt', 'Other Geographic');
+  detailedView += createTagHtml('dt', 'Theme/SPSD');
+  detailedView += createTagHtml('dt', 'Point of Contact');
+  detailedView += createTagHtml('dt', 'Public Website') + '<dd></dd>'; // TODO: REMOVE THIS
+  //detailedView += createTagHtml('dt', '?Date Added') + createTagHtml('dd', formatDate(data[INDEX_OF_DATE_ADDED]));
+  //detailedView += createTagHtml('dt', '?Primary Funding Source') + createTagHtml('dd', data[INDEX_OF_PRIMARY_FUNDING_SOURCE]);
+  //detailedView += createTagHtml('dt', '?Status') + createTagHtml('dd', data[INDEX_OF_STATUS]);
+
   detailedView += "</dl>";
   detailedView += "<dl>";
-  detailedView += createTagHtml('dt', 'Description') + createTagHtml('dd', data[INDEX_OF_DESCRIPTION], 'detailed-lead-description');
+  detailedView += createTagHtml('dt', 'Description') + createTagHtml('i', data[INDEX_OF_DESCRIPTION], 'detailed-lead-description');
   detailedView += "</dl>";
   detailedView += "<div class=\"text-center\">";
   if (data[INDEX_OF_LEAD_POINT_OF_CONTACT]) {
