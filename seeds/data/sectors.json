@@ -1,0 +1,44 @@
+[{
+    "id": 1,
+    "sector": "Administrative and Support and Waste Management and Remediation Services"
+}, {
+    "id": 2,
+    "sector": "Agriculture, Forestry, Fishing and Hunting"
+}, {
+    "id": 3,
+    "sector": "Construction"
+}, {
+    "id": 4,
+    "sector": "Educational Services"
+}, {
+    "id": 5,
+    "sector": "Finance and Insurance"
+}, {
+    "id": 6,
+    "sector": "Health Care and Social Assistance"
+}, {
+    "id": 7,
+    "sector": "Information"
+}, {
+    "id": 8,
+    "sector": "Manufacturing"
+}, {
+    "id": 9,
+    "sector": "Mining, Quarrying, and Oil and Gas Extraction"
+}, {
+    "id": 10,
+    "sector": "Professional, Scientific, and Technical Services"
+}, {
+    "id": 11,
+    "sector": "Public Administration"
+}, {
+    "id": 12,
+    "sector": "Transportation and Warehousing"
+}, {
+    "id": 13,
+    "sector": "Utilities"
+},
+{
+    "id": 14,
+    "sector": "Undefined"
+}]

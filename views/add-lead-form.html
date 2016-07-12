@@ -1,0 +1,141 @@
+{% extends "default.html" %} {% block content %}
+<div class="container section--add-lead-form">
+  <div id="form-access" class="row">
+    <div class="col-md-9 col-md-offset-2">
+      <div class="form-container" id="form-body">
+      <form role="form" method="post" action="" id="leadform">
+        <div class='progressbar-thingy'>
+          <ul id="progressbar">
+            <li class="pb-active">Basic Info</li>
+            <li class="inactive">Location Info</li>
+            <li class="inactive">Contact Info</li>
+          </ul>
+        </div>
+        <div class="add-lead-form-required-fields-info">
+          <p>* Denotes required fields</p>
+        </div>
+        <fieldset id="basicInfoFieldset">
+          <div class="form-group">
+            <label for="proj_title">*Project Title:</label>
+            <input class="form-control" id="proj_title" name="project_title" required minlength='10'>
+          </div>
+          <div class="form-group">
+            <label for="project_number">*Project Number:</label>
+            <input class="form-control" id="proj_number" name="project_number" required>
+          </div>
+          <div class='form-group sectors'>
+            <label>*By Sector</label>
+            <span class='toggle'>Select All</span>
+            <div>
+              <select id='sector_add' name='sector_add_ar' multiple='multiple'></select>
+            </div>
+          </div>
+          <input type='hidden' class="form-control" id="sector" name="sector">
+          <div class="form-group">
+            <label for="est_proj_value">Estimated Project Size/Value ($):</label>
+            <!--<input class="form-control" id="est_proj_value" name="est_proj_value">-->
+            <select name="project_size" id="est_proj_value" class='form-control select2' required>
+              <option value="50000">50,000</option>
+              <option value="100000">100,000</option>
+              <option value="100000">250,000</option>
+              <option value="500000">500,000</option>
+              <option value="1000000">1,000,000</option>
+              <option value="5000000">5,000,000</option>
+              <option value="10000000">10,000,000</option>
+              <option value="25000000">25,000,000</option>
+              <option value="50000000">50,000,000</option>
+              <option value="100000000">100,000,000</option>
+              <option value="250000000">250,000,000</option>
+              <option value="500000000">500,000,000</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="proj_description">Project Description:</label>
+            <textarea class="form-control" id="proj_desc" name="project_description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="keyword">Keywords:</label>
+            <input class="form-control" id="keywords" name="keyword">
+          </div>
+          <div class="form-group">
+            <label for="link_to_project">Project Website:</label>
+            <input class="form-control" id="proj_website" name="link_to_project" type="url">
+          </div>
+          <div class="form-group">
+            <label for="project_announced">Project Announced (date):</label>
+            <input type="date" class="form-control" id="proj_announced" name="project_announced">
+          </div>
+          <div class="form-group">
+            <label for="tender_date">Expected Tender Date:</label>
+            <input type="date" class="form-control" id="expected_tender_date" name="tender_date">
+          </div>
+
+          <div class="form-group">
+            <label for="auto_archive_date">Auto Archive date:</label>
+            <input type="date" class="form-control" id="auto_archive_date" name="auto_archive_date">
+          </div>
+          <input type="button" id="next1" name="next" class="next action-button btn btn-default" value="Next" />
+
+        </fieldset>
+        <fieldset id="locationInfoFieldset">
+          <div class="form-group">
+            <label for="proj_number">*Location Lookup:</label> <span onclick='do_geocoding_lookup()'> + </span>
+            <input class="form-control" id="proj_user_location" name="proj_user_location" placeholder="type a location and click the plus sign to find the location details" required>
+            <div id="lookup-results"></div>
+            <input type='hidden' class="form-control" id="proj_address_lat" name="proj_address_lat">
+            <input type='hidden' class="form-control" id="proj_address_lng" name="proj_address_lng">
+            <input type='hidden' class="form-control" id="proj_country" name="country">
+            <input type='hidden' class="form-control" id="proj_iso" name="proj_iso">
+          </div>
+          <label for="proj_number">*Add a Country:</label> <span onclick='cloneDropdown()'> + </span>
+          <div class="form-group" id="countrydiv">
+            <select name='search' id='country-input' class='form-control select2'>
+              <option></option>
+            </select>
+            <input type='hidden' class="form-control" id="country_id" name="country_id">
+            <input type='hidden' class="form-control" id="country_name" name="country_name">
+          </div>
+          <div id='location_details' class='location_summary'>
+          </div>
+          <input type="button" name="previous" class="previous action-button btn btn-default" value="Previous" />
+          <input type="button" id="next2" name="next" class="next action-button btn btn-default" value="Next" />
+        </fieldset>
+        <fieldset id="contactInfoFieldset">
+          <div class="form-group">
+            <label for="implementing_entity">*Implementing Entity:</label>
+            <input class="form-control" id="imp_entity" name="implementing_entity" required>
+          </div>
+          <div class="form-group">
+            <label for="project_pocs">Implementing Entity POC / Project POCs:</label>
+            <input class="form-control" id="imp_entity_poc" name="project_pocs">
+          </div>
+          <div class="form-group">
+            <label for="business_url">*US Embassy Business Page:</label>
+            <input class="form-control" id="us_embassy_business_page" name="business_url" type="url" required>
+          </div>
+          <div class="form-group">
+            <label for="submitting_officer">*USG Submitting Officer Name:</label>
+            <input class="form-control" id="usg_officer" name="submitting_officer" required>
+          </div>
+          <div class="form-group">
+            <label for="submitting_officer_contact">*USG POC Email:</label>
+            <input class="form-control" id="usg_poc_email" name="submitting_officer_contact" type="email" required>
+          </div>
+          <div class="form-group">
+            <label for="submitting_officer_contact">*Email verification:</label>
+            <input class="form-control" id="email_verification" name="submitting_officer_verify" type="email" required>
+          </div>
+          <div class="form-group">
+            <label for="post_comments">Post comments:</label>
+            <input class="form-control" id="post_comments" name="post_comments">
+          </div>
+          <input type="button" name="previous" class="previous action-button btn btn-default" value="Previous" />
+          <button type="submit" class="btn btn-default btn-primary">Add a Lead</button>
+        </fieldset>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/scripts/add-lead.js"></script>
+{% endblock %}

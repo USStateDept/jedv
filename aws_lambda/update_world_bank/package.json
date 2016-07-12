@@ -1,0 +1,16 @@
+{
+  "name": "bids_wb_daily",
+  "version": "0.1.0",
+  "description": "AWS lambda scheduled function that automates getting data from World Bank, comparing, and inserting into the BIDS database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "eDiplomacy - Michael Ramos",
+  "dependencies": {
+    "asyncawait": "^1.0.3",
+    "lodash": "^4.12.0",
+    "pg": "^4.5.5",
+    "request": "^2.72.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "bids2",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Teja Naraparaju <teja.s.naraparaju@gmail.com>"
+  ],
+  "license": "",
+  "homepage": "https://github.com/USStateDept/BIDS",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.3",
+    "select2": "^4.0.2",
+    "bootstrap": "^3.3.6",
+    "bootstrap-multiselect": "^0.9.13",
+    "leaflet": "^0.7.7",
+    "jquery-validation": "^1.15.0",
+    "leaflet-groupedlayercontrol": "^0.4.0",
+    "lodash": "^3.10.1",
+    "leaflet.markercluster": "^0.5.0",
+    "leaflet.locatecontrol": "^0.52.0",
+    "font-awesome": "^4.6.2",
+    "datatables": "^1.10.11"
+  },
+  "resolutions": {
+    "font-awesome": "~4.5.0"
+  }
+}

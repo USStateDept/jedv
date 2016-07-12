@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+    <title>BIDS</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/lodash/lodash.min.js"></script>
+    <script src="/bower_components/select2/dist/js/select2.min.js"></script>
+    <script src="/bower_components/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables/media/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- CSS dependencies -->
+    <link rel="stylesheet" href="/bower_components/datatables/media/css/dataTables.bootstrap.min.css">
+
+    <!-- Bootstrap JS -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/bower_components/bootstrap-multiselect/dist/js/bootstrap-multiselect.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap-multiselect/dist/css/bootstrap-multiselect.css">
+
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/flexboxgrid/6.3.0/flexboxgrid.min.css" type="text/css" > -->
+
+    <!-- Custom styles for this template -->
+    <link href="/css/bids-style.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+
+    <!-- Application javascript -->
+    <script src="/scripts/bids.js"></script>
+    <script src="/scripts/navbar.js"></script>
+
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <main class="main-container">
+      {% block header %}
+        {% include "navbar/navbar-redfin.html" %}
+      {% endblock %}
+      <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+    <footer>
+    </footer>
+  </body>
+</html>

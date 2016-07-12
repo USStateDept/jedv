@@ -1,0 +1,21 @@
+#system files
+.DS_STORE
+
+#node modules
+/node_modules
+
+/bower_components
+
+/public/css
+
+#config files
+/config/production.js
+/config/staging.js
+/config/development.js
+/.idea
+
+#log files
+npm-debug.log
+
+#user uploaded files
+/public/uploads/

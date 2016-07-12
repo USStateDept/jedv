@@ -1,0 +1,6 @@
+########################
+# Customize database setup
+########################
+database:
+  pre:
+    - node config/schemas/setup_db.js

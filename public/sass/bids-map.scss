@@ -1,0 +1,246 @@
+tr {
+  background: #fff;
+}
+.leaflet-control-layers {
+  overflow: auto;
+}
+.leaflet-control-layers label {
+  font-weight: normal;
+  margin-bottom: 0;
+}
+.leaflet-control-layers-list input[type="radio"],
+input[type="checkbox"] {
+  margin: 2px;
+}
+.table {
+  margin-bottom: 0;
+}
+.typeahead {
+  background-color: #FFFFFF;
+}
+.tt-dropdown-menu {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px 4px 4px 4px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 4px;
+  padding: 4px 0;
+  width: 100%;
+  max-height: 300px;
+  overflow: auto;
+}
+.tt-suggestion {
+  font-size: 14px;
+  line-height: 20px;
+  padding: 3px 10px;
+}
+.tt-suggestion.tt-cursor {
+  background-color: #0097CF;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.tt-suggestion + .tt-suggestion {
+  border-top: 1px solid #ccc;
+}
+.typeahead-header {
+  margin: 0 5px 5px;
+  padding: 3px 0;
+  border-bottom: 2px solid #333;
+}
+.has-feedback .form-control-feedback {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+}
+.map-text-button {
+  cursor: pointer;
+}
+.map-project-details {
+  list-style-type: none;
+  padding: 0;
+}
+.popup-pjt-title {
+  color: #0071bc;
+  font-weight: 500;
+}
+.popup-pjt-title:hover {
+  color: #205493;
+}
+.popup-pjt-title p {
+  font-size: 0.85em;
+  color: black;
+  padding: 0;
+  margin: 0;
+}
+.btn-group {
+  margin-left: 10px;
+}
+.multiselect-container {
+  height: 200px;
+  overflow-y: scroll;
+}
+@media (max-width: 992px) {
+  .navbar .navbar-brand {
+    font-size: 18px;
+  }
+}
+@media (max-width: 767px) {
+  #sidebar {
+    display: none;
+  }
+  .url-break {
+    word-break: break-all;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .dropdown-menu a i {
+    color: #FFFFFF;
+  }
+}
+/* Print Handling */
+@media print {
+  .navbar {
+    display: none !important;
+  }
+  .leaflet-control-container {
+    display: none !important;
+  }
+}
+.marker-cluster div {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(241, 128, 23, 0.8);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 5px rgba(241, 128, 23, 0.8);
+  color: white;
+  margin-left: 0;
+}
+/* Filter Form */
+.filterForm {
+  position: fixed;
+  z-index: 9999;
+  background-color: rgba(245,245,245,.95);
+  border: 1px solid #808285;
+  top: 60px;
+  left: 142px;
+  padding: 5px 15px;
+  width: 720px;
+  -webkit-user-select: none;
+  display: none;
+}
+.subscribe-modal {
+  min-height: 200px;
+  color: #333;
+  background-color: #fff;
+  max-height: 450px;
+  border-radius: 0;
+  text-align: left;
+  width: 410px;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -55%);
+  box-shadow: 2px 2px 8px 0 rgba(0,0,0,.5);
+}
+.subscribe-content {
+  margin: 1.5rem;
+}
+#subscribe-form label {
+  width: 20%;
+  text-align: start;
+  font-size: 1.25em;
+}
+#subscribe-form input {
+  margin-bottom: 8px;
+  width: 80%;
+  font-size: 2.5rem;
+  border: 1px solid black;
+}
+#subscribe-form fieldset {
+  margin-bottom: 10px;
+}
+.filterForm .topFilters {
+  font-size: 12px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #808285;
+}
+.filterForm .filterSizeBox {
+  float: left;
+  width: 50%;
+}
+.filterForm .filter-size {
+  width: 50%;
+  display: inline-block;
+}
+.filter-subscribe {
+  border-radius: 0;
+  border: none;
+  color: white;
+  background-color: #1E194D;
+  font-size: 14px;
+  height: 30px;
+  margin-left: 15px;
+}
+.filterForm .subscribe-message {
+  float: right;
+  font-size: 11px;
+  font-weight: bold;
+}
+.filterForm .filterFormTitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 7px 0 5px;
+}
+.filterForm select {
+  -webkit-appearance: menulist;
+  box-sizing: border-box;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 11px;
+  padding: 0;
+  height: 20px;
+}
+.filterForm .filterFormColumn0,
+.filterForm .filterFormColumn1 {
+  border-right: 1px solid #808285;
+}
+.filterForm .filterFormColumn {
+  font-size: 11px;
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 15px;
+  height: 430px;
+}
+.filterForm .filterFormColumn0 {
+  width: 180px;
+}
+.filterForm .filterFormColumn1 {
+  width: 220px;
+  height: 100%;
+}
+.filterForm .filterFormColumn2 {
+  width: 180px;
+}
+.filterForm .region-choices {
+  height: 200px;
+}
+.filterForm .country-choices {
+  overflow: scroll !important;
+  height: 415px;
+}
+.filterForm .country-filter-choice {
+  width: 100px;
+  float: left;
+}

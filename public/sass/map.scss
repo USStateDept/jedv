@@ -1,0 +1,118 @@
+#data-table{
+  .col-sm-7 {
+    width: 100%;
+    padding: 0px;
+  }
+  tr {
+    cursor: pointer;
+  }
+  .dataTables_paginate {
+    text-align: center;
+  }
+}
+
+.section--map {
+  height: 100%;
+}
+
+.note {
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow:    0 0 5px black;
+  box-shadow:         0 0 5px black;
+  margin-bottom: 0px;
+}
+
+@-webkit-keyframes slideDown {
+  0%, 100% { -webkit-transform: translateY(-50px); }
+  10%, 90% { -webkit-transform: translateY(0px); }
+}
+@-moz-keyframes slideDown {
+  0%, 100% { -moz-transform: translateY(-50px); }
+  10%, 90% { -moz-transform: translateY(0px); }
+}
+
+.cssanimations.csstransforms .note {
+  -webkit-transform: translateY(-50px);
+  -webkit-animation: slideDown 2.5s 1.0s 1 ease forwards;
+  -moz-transform:    translateY(-50px);
+  -moz-animation:    slideDown 2.5s 1.0s 1 ease forwards;
+}
+
+.detail-list-container {
+  height: 100%;
+  background-color: lightgrey;
+}
+
+.section--detailed-lead {
+  margin-top: 5px;
+  font-size: 75%;
+  padding: 0px 10px 10px 10px;
+  height: 40%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  min-width: 300px;
+  background-color: white;
+  border-top: solid 1px rgba(0,0,0,.1);
+  box-shadow: 0 1px 2px 0 #aaa;
+
+  .detailed-lead-icon {
+    padding: 5px;
+  }
+  .detailed-lead-title {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .detailed-lead-description {
+    overflow: scroll;
+    min-height: 85px;
+    height: 85px;
+  }
+}
+
+.section--lead-table {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  font-size: 80%;
+  padding-top: 10px;
+  max-height: calc(60% - 10px);
+  margin-top: 10px;
+}
+
+.section--map-page {
+  height: 100%;
+  background-color: lightgray;
+}
+
+.table-view {
+  padding: 0px 5px 0px 5px;
+}
+
+.dl-horizontal dt {
+  width: 170px;
+}
+
+@media (max-width:480px) {
+  .section--map {
+    display: none;
+  }
+  .section--detailed-lead {
+    display: none;
+  }
+  .section--lead-table {
+    height: 100%;
+    overflow:visible;
+  }
+}
+
+.close-filter {
+  float: right;
+  font-weight: bold;
+  cursor: pointer;
+}

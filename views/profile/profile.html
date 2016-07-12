@@ -1,0 +1,79 @@
+{% extends "default.html" %}
+
+{% block hamburger %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<!-- LOCAL INFORMATION -->
+	<div class="col-sm-6">
+		<div class="well">
+			<h3><span class="fa fa-user"></span> Local</h3>
+
+				<p>
+					<strong>id</strong>: {{ user.id }}<br>
+					<strong>email</strong>: {{user.email}} <br>
+				</p>
+
+		</div>
+	</div>
+
+</div>
+<p>Number of results : {{ size }}</p>
+<p><a href="/profile">Neither</a> | <a href="/profile/cleared">Cleared</a> | <a href="/profile/archived">Archived</a></p>
+<table class='leads-actions'>
+<tr>
+	<th>ID</th>
+	<th>Title</th>
+	<th>Description</th>
+	<th>Sector</th>
+	<th>Status</th>
+	<th>Cleared?</th>
+	<th>Archived</th>
+	<th>Clear</th>
+	<th>Archive</th>
+</tr>
+
+{% for lead in leads %}
+	{% if true %}
+	<tr>
+		<td>{{ lead.attributes.fid }}</td>
+		<td>{{ lead.attributes.project_title }}</td>
+		<td>{{ lead.attributes.project_description }}</td>
+		<td>{{ lead.attributes.sector }}</td>
+		<td>{{ lead.attributes.status }}</td>
+		<td>{{ lead.attributes.cleared }}</td>
+		<td>{{ lead.attributes.archived }}</td>
+		<td><button onclick='clear_lead({{ lead.attributes.fid }})'>Clear</button></td>
+		<td><button onclick='archive_lead({{ lead.attributes.fid }})'>Archive</button></td>
+	</tr>
+	{% endif %}
+{% else %}
+<tr>
+	<td colspan='7'>No Actions to Take</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<script>
+	$(".lead-filter").click(function() {
+
+	});
+
+	function clear_lead(fid) {
+		$.get("/api/clear/"+fid,
+		    function(data, status){
+		      window.location.href="/profile";
+		    });
+	}
+
+	function archive_lead(fid) {
+		$.get("/api/archive/"+fid,
+		    function(data, status){
+		      window.location.href="/profile";
+		    });
+	}
+
+</script>
+{% endblock %}

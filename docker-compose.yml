@@ -1,0 +1,14 @@
+db:
+  image: mdillon/postgis
+  ports:
+    - '5432:5432'
+  environment:
+    POSTGRES_DB: bids
+    POSTGRES_USER: bids
+    POSTGRES_PASSWORD:
+web:
+  build: .
+  links:
+    - db
+  ports:
+    - '80:3000'

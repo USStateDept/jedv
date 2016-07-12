@@ -1,0 +1,96 @@
+{% extends "default.html" %}
+
+{% block content %}
+
+{% if overlay %}
+
+  {% include "welcome-modal.html" %}
+
+{% endif %}
+
+<div class="section--map-page">
+<div class="row">
+  <div id="map" class="section--map col-md-7">
+    <div></div>
+  </div>
+  <div class="col-md-5 detail-list-container">
+    <div class="container-fluid table-view">
+      <div class="row">
+        <div class="section--detailed-lead">
+        </div>
+        <div class="section--lead-table">
+          <div id="data-table">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  <div id="subscribe-form-modal" class="modal subscribe-modal"  tabindex='-1'  role="dialog">
+  <div>
+      <div class="subscribe-content">
+
+              <h3>Get updates on this search!</h3>
+          <div class="topHeader" >
+              <p class="subHeadline">
+                  Get an email within minutes whenever new leads that match your search are entered.
+              </p>
+          </div>
+          <hr>
+          <div>
+            <div class="subscribe-message"></div>
+              <form id="subscribe-form" >
+                  <fieldset>
+                  <label for="sub-title">Title</label>
+                  <input type="text" name="sub-title" required ><br/>
+                  <label for="sub-email">Email</label>
+                  <input type="email" name="sub-email" required ><br/>
+                  </fieldset>
+                  <fieldset>
+                  <label for="sub-when">When</label><br/>
+                  <select name="sub-when" required>
+                      <option value="1">Every Day</option>
+                      <option value="3">Every 3 Days</option>
+                      <option value="7">Every 7 Days</option>
+                  </select>
+                  </fieldset>
+                  <br/>
+                  <br/>
+                  <button type="submit" class="filter-subscribe filter-save">Subscribe</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+<script>
+    // not sure why i have to do this. not worth investigating
+    $('#subscribe-form-modal').on('shown.bs.modal', function() {
+      $('.modal-backdrop').click(function(){
+        $("#subscribe-form-modal").modal('toggle')
+      });
+    });
+  </script>
+
+<!-- CSS dependencies -->
+<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/bower_components/leaflet/dist/leaflet.css">
+<link rel="stylesheet" href="/bower_components/leaflet.markercluster/dist/MarkerCluster.css">
+<link rel="stylesheet" href="/bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css">
+<link rel="stylesheet" href="/bower_components/leaflet.locatecontrol/dist/L.Control.Locate.css">
+<link rel="stylesheet" href="/bower_components/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.css">
+
+<!-- JS dependencies -->
+<script src="/bower_components/leaflet/dist/leaflet.js"></script>
+<script src="/bower_components/leaflet-groupedlayercontrol/dist/leaflet.groupedlayercontrol.min.js"></script>
+<script src="/bower_components/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
+<script src="/bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="scripts/wNumb.js"></script>
+
+<!-- Map related css -->
+<link rel="stylesheet" href="css/bids-map.css">
+
+<!-- Map related JS -->
+<script src="scripts/bids-map.js"></script>
+
+{% endblock %}
