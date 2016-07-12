@@ -142,8 +142,8 @@ if (app.get('env') === 'production') {
   });
 }
 
-app.listen(3000, function () {
-  console.log('BIDS is listening on port 3000!');
+app.listen(80, function () {
+  console.log('JEDV is listening on port 80!');
 });
 
 module.exports = app;
