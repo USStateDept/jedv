@@ -253,7 +253,8 @@ function convertCountry(country) {
                                         console.log("Select country error");
                                         reject(err)
                                     }
-                                    if (!result.rows[0]) {
+                                    if (!result.rows[0]) { 
+                                        console.log("1")
                                     // country not in our db
                                     resolve(false);
                                     } else {
@@ -264,10 +265,12 @@ function convertCountry(country) {
                                 });
                             });
                         } else {
+                            console.log("2")
                             // this is not a country (at least not recognized by google)
                             resolve(false)
                         }
                     } else {
+                        console.log("2")
                         // google found nothing
                         resolve(false);
                     }
@@ -282,27 +285,16 @@ function convertCountry(country) {
     });
 }
 
-function insertManyToMany(lead, sectors, countryID) {
+function insertManyToMany(lead, countryID) {
     return new Promise((resolve, reject) => {
         var iquery = "";
         // sectors 
-        _.forEach(sectors, (sec)=>{
-            if (!sec) {
-                // do nothing
-            } else { 
-                iquery += `
-                    INSERT INTO leads_sectors(
-                            lead_fid, sector_id
-                    ) VALUES (
-                            ${lead}, (SELECT id FROM SECTORS WHERE sector ~ '${sec.trim().replace('\'','\'\'')}')
-                        );`;
-            }
-           
-        });
+
         
         // single country
-        iquery += `INSERT INTO leads_countries(lead_fid, country_id)VALUES (${lead}, ${countryID});`
-        
+        iquery += `INSERT INTO leads_countries(lead_fid, country_id)VALUES (${lead}, ${countryID});`;
+        console.log("QUERY ===============================");
+        console.log(iquery);
          pg.connect(conString, function(err, client, done) {
             if(err) {
                 reject(err)
@@ -327,134 +319,53 @@ function insertLeadObject(data) {
             function strip(phrase) {
                 return phrase.trim().replace(`''`,`'`).replace(`'`,`''`);
             }
+            console.log("DATA ========================================== DATA")
+            console.log(data.locations)
+            var opp_unit            = !data.opp_unit            ? "JEDV" : strip(data.opp_unit);
+            var project_title       = !data.project_title       ? "NO TITLE" : strip(data.project_title);
+            var project_description = !data.project_description ? "NO DESC" : strip(data.project_description);
+            var total_amount        = !data.total_amount        ? null : strip(data.total_amount);
+            var appropriation_year  = !data.appropriation_year  ? null : strip(data.appropriation_year);
+            var obligation_year     = !data.obligation_year     ? null : strip(data.obligation_year);
+            var fund_source         = !data.fund_source         ? "JEDV" : strip(data.fund_source);
+            var implementing_partner= !data.implementing_partner? null : strip(data.implementing_partner);
+            var award_number        = !data.award_number        ? null : strip(data.award_number);
+            var fund_mechanism      = !data.fund_mechanism      ? null : strip(data.fund_mechanism);
+            var perform_start_date  = !data.perform_start_date  ? null : strip(data.perform_start_date);
+            var perform_end_date    = !data.perform_end_date    ? null : strip(data.perform_end_date);
+            var region              = !data.region              ? null : strip(data.region);
+            var sub_region          = !data.sub_region          ? null : strip(sub_region);
+            var locations           = { "data": data.locations };
+            var project_theme       = !data.project_theme       ? null : strip(data.project_theme);
+            var project_pocs        = !data.project_pocs        ? null : strip(data.project_pocs);
+            var public_website      = !data.public_website      ? null : strip(data.public_website);
 
-            var locObj      = { "data": data.locations };
-            var cleared     = (data.cleared == '1' || data.cleared == 'true' || data.cleared == 'TRUE') ? true : true;
-            var archived    = (data.archived == '1' || data.archived == 'true' || data.cleared == 'TRUE') ? true : false;
-            var announced   = !data.project_announced ? null : strip(data.project_announced);
-            var tender      = !data.tender_date ? null : strip(data.tender_date);
-            var comments    = !data.post_comments ? "none" : strip(data.post_comments);
-            var source      = !data.source ? "BIDS" : strip(data.source);
-            var number      = !data.project_number ? null : strip(data.project_number);
-            var size        = !data.project_size ? null : strip(data.project_size);
-            var description = !data.project_description ? null : strip(data.project_description);
-            var pocs        = !data.project_pocs ? null : strip(data.project_pocs);
-            var keyword     = !data.keyword ? null : strip(data.keyword);
-            var impentity   = !data.implementing_entity ? null : strip(data.implementing_entity);
-            var plink       = !data.link_to_project ? null : strip(data.link_to_project);
-            var blink       = !data.business_url ? null : strip(data.business_url);
-            var title       = !data.project_title ? 'NO TITLE' : strip(data.project_title);
-            var subOfficer  = !data.submitting_officer ? null : strip(data.submitting_officer );
-            var subContact  = !data.submitting_officer_contact ? null : strip(data.submitting_officer_contact);
+            var cleared             = (data.cleared == '1' || data.cleared == 'true' || data.cleared == 'TRUE') ? true : true;
+            var archived            = (data.archived == '1' || data.archived == 'true' || data.cleared == 'TRUE') ? true : false;
 
             var queryText = `INSERT INTO leads(
             opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
             fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date, region, sub_region,
-            locations, project_theme, project_pocs, public_website, cleared, editable, archived, auto_archive_date, the_geom)
+            locations, project_theme, project_pocs, public_website, cleared, archived, auto_archive_date, the_geom)
                 VALUES (
                     $1, $2, $3, $4, 
                     $5, $6, $7, $8, $9, 
-                    $10, $11, $12, $13, 
-                    $14, $15, $16, $17, $18, 
-                    $19, $20, $21
+                    $10, $11, $12, $13, $14, 
+                    $15, $16, $17, $18, 
+                    $19, $20, $21, $22
                 )
                 RETURNING fid;`;
-            var queryValues;
-            
-            if(!announced && !tender) {
-                // var iquery = 
-                // `INSERT INTO leads(
-                //     project_title, project_number, project_size, project_description, 
-                //     keyword, source, project_announced, tender_date, implementing_entity, 
-                //     project_pocs, post_comments, submitting_officer, submitting_officer_contact, 
-                //     link_to_project, business_url, cleared, archived, auto_archive_date, 
-                //     the_geom, editable, locations)
-                // VALUES (
-                //     '${title}', '${number}', '${size}', '${description}', 
-                //     '${keyword}', '${source}', null, null, '${impentity}', 
-                //     '${pocs}', '${comments}', '${subOfficer}', '${subContact}', 
-                //     '${plink}', '${blink}', ${cleared}, ${archived}, null, 
-                //     null, true, '${JSON.stringify(locObj)}'
-                // )
-                // RETURNING fid;`;
-                queryValues = [
-                    title,number,size,description,keyword,source,null,null,impentity,pocs,
-                    comments,subOfficer,subContact,plink,blink,cleared,archived,null,null,true,
-                    JSON.stringify(locObj)
-                ];
-            } else if(!tender) {
-                // var iquery = 
-                // `INSERT INTO leads(
-                //     project_title, project_number, project_size, project_description, 
-                //     keyword, source, project_announced, tender_date, implementing_entity, 
-                //     project_pocs, post_comments, submitting_officer, submitting_officer_contact, 
-                //     link_to_project, business_url, cleared, archived, auto_archive_date, 
-                //     the_geom, editable, locations)
-                // VALUES (
-                //     '${title}', '${number}', '${size}', '${description}', 
-                //     '${keyword}', '${source}', '${announced}', null, '${impentity}', 
-                //     '${pocs}', '${comments}', '${subOfficer}', '${subContact}', 
-                //     '${plink}', '${blink}', ${cleared}, ${archived}, null, 
-                //     null, true, '${JSON.stringify(locObj)}'
-                // )
-                // RETURNING fid;`;
-                queryValues = [
-                    title,number,size,description,keyword,source,announced,null,impentity,pocs,
-                    comments,subOfficer,subContact,plink,blink,cleared,archived,null,null,true,
-                    JSON.stringify(locObj)
-                ];
-            } else if(!announced) {
-                // var iquery = 
-                // `INSERT INTO leads(
-                //     project_title, project_number, project_size, project_description, 
-                //     keyword, source, project_announced, tender_date, implementing_entity, 
-                //     project_pocs, post_comments, submitting_officer, submitting_officer_contact, 
-                //     link_to_project, business_url, cleared, archived, auto_archive_date, 
-                //     the_geom, editable, locations)
-                // VALUES (
-                //     '${title}', '${number}', '${size}', '${description}', 
-                //     '${keyword}', '${source}', null, '${tender}', '${impentity}', 
-                //     '${pocs}', '${comments}', '${subOfficer}', '${subContact}', 
-                //     '${plink}', '${blink}', ${cleared}, ${archived}, null, 
-                //     null, true, '${JSON.stringify(locObj)}'
-                // )
-                // RETURNING fid;`;
-                queryValues = [
-                    title,number,size,description,keyword,source,null,tender,impentity,pocs,
-                    comments,subOfficer,subContact,plink,blink,cleared,archived,null,null,true,
-                    JSON.stringify(locObj)
-                ];
-            }  else {
-                // var iquery = 
-                // `INSERT INTO leads(
-                //     project_title, project_number, project_size, project_description, 
-                //     keyword, source, project_announced, tender_date, implementing_entity, 
-                //     project_pocs, post_comments, submitting_officer, submitting_officer_contact, 
-                //     link_to_project, business_url, cleared, archived, auto_archive_date, 
-                //     the_geom, editable, locations)
-                // VALUES (
-                //     '${title}', '${number}', '${size}', '${description}', 
-                //     '${keyword}', '${source}', '${announced}', '${tender}', '${impentity}', 
-                //     '${pocs}', '${comments}', ''${subOfficer}', '${subContact}', 
-                //     '${plink}', '${blink}', ${cleared}, ${archived}, null, 
-                //     null, true, '${JSON.stringify(locObj)}'
-                // )
-                // RETURNING fid;`;
-                queryValues = [
-                    title,number,size,description,keyword,source,announced,tender,impentity,pocs,
-                    comments,subOfficer,subContact,plink,blink,cleared,archived,null,null,true,
-                    JSON.stringify(locObj)
-                ];
-            }
-
+            var queryValues = [
+                opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
+                fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date,
+                region, sub_region, JSON.stringify(locations), project_theme, project_pocs, public_website, cleared, archived, null, null
+            ];
 
             var queryConfig = {
                 text: queryText,
                 values: queryValues
             };
 
-            console.log("Executing Query:");
-            console.log(queryConfig);
             
             pg.connect(conString, function(err, client, done) {
                 if(err) {
@@ -466,18 +377,24 @@ function insertLeadObject(data) {
                     if(err) {
                         console.log(err);
                         console.log(" -- INSERT BULK CSV ERROR --");
+                        console.log("REJECTING THIS INSERT")
+                        console.log(reject)
                         reject(err);
-                    }
+                    } else {
+                        console.log("SHOULD NOT BE LOGGING")
+                        console.log(result);
 
-                    insertManyToMany(result.rows[0].fid, data.sector, data.locations[0].country_id)
-                        .then(()=>{
-                            console.log("resolving true -- complete")
-                            resolve(true)
-                        })
-                        .catch((err)=>{
-                            console.log(" -- INSERT BULK CSV m2m ERROR --");
-                            reject(err);
-                        });
+                        insertManyToMany(result.rows[0].fid, data.locations[0].country_id)
+                            .then(()=>{
+                                console.log("resolving true -- complete")
+                                resolve(true)
+                            })
+                            .catch((err)=>{
+                                console.log(" -- INSERT BULK CSV m2m ERROR --");
+                                reject(err);
+                            });
+                    }
+                    
 
                 });
             });
@@ -505,20 +422,6 @@ var transformLeadObject = async( data => {
             
             transformed.data.locations.push(countryCheck);
   
-            data.sector = data.sector.split("|");
-            data.sector = _.remove(data.sector, function(n) {
-                return n  != null;
-            });
-
-            _.forEach(data.sector, (sec,i) => {
-                data.sector[i] = convertSectors(sec.trim());
-            });
-
-            transformed.data.sector = _.uniq(data.sector);
-            console.log("INSERT SECTORS:::::::")
-            console.log(transformed.data.sector);
-
-
             resolve(transformed);
         } catch (e) {
             console.log(e);
