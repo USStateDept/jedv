@@ -79,7 +79,7 @@ app.use(function(req, res, next) {
 // EntryControl settings
 var EC = new EntryControl({
   protocols: ["ip"],
-  allowedIpRange: ['169.253.194.1'],
+  allowedIpRange: ['127.0.0.1'],
   protectedRoutes: [
     {path: '/api/leads' , method: 'POST'}, // adding a lead ?
     {path: '/api/leads' , method: 'PUT'}, // updating a lead ?

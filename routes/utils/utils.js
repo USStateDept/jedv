@@ -320,6 +320,7 @@ function insertManyToMany(lead, sectors, countryID) {
     });
 }
 
+// TODO: Modify with new data fields
 function insertLeadObject(data) {
     return new Promise((resolve, reject) => {
         try {
@@ -347,11 +348,11 @@ function insertLeadObject(data) {
             var subContact  = !data.submitting_officer_contact ? null : strip(data.submitting_officer_contact);
 
             var queryText = `INSERT INTO leads(
-                    project_title, project_number, project_size, project_description, 
-                    keyword, source, project_announced, tender_date, implementing_entity, 
-                    project_pocs, post_comments, submitting_officer, submitting_officer_contact, 
-                    link_to_project, business_url, cleared, archived, auto_archive_date, 
-                    the_geom, editable, locations)
+                    opp_unit, project_title, project_number, project_theme, project_description, 
+                    keyword, fund_source, project_announced, implementing_partner, post_comments, 
+                    project_pocs, post_comments, submitting_officer, total_amount, submitting_officer_contact, 
+                    obligation_year, appropriation_year, award_number, fund_mechanism, public_website, cleared,
+                    editable, archived, auto_archive_date, the_geom, locations, region, sub_region)
                 VALUES (
                     $1, $2, $3, $4, 
                     $5, $6, $7, $8, $9, 
