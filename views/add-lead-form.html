@@ -1,4 +1,9 @@
 {% extends "default.html" %} {% block content %}
+
+<!-- TODO: Fix form submission
+           Comment this page back in to the application
+           -->
+
 <div class="container section--add-lead-form">
   <div id="form-access" class="row">
     <div class="col-md-9 col-md-offset-2">
@@ -16,13 +21,16 @@
         </div>
         <fieldset id="basicInfoFieldset">
           <div class="form-group">
+            <label for="opp_unit">*Operating Unit:</label>
+            <input class="form-control" id="opp_unit" name="operating_unit" required minlength='2'>
+          </div>
+          <div class="form-group">
             <label for="proj_title">*Project Title:</label>
             <input class="form-control" id="proj_title" name="project_title" required minlength='10'>
           </div>
-          <div class="form-group">
-            <label for="project_number">*Project Number:</label>
-            <input class="form-control" id="proj_number" name="project_number" required>
-          </div>
+
+
+          <!-- UNUSED, DEPRECATED
           <div class='form-group sectors'>
             <label>*By Sector</label>
             <span class='toggle'>Select All</span>
@@ -31,24 +39,18 @@
             </div>
           </div>
           <input type='hidden' class="form-control" id="sector" name="sector">
+          -->
+
           <div class="form-group">
-            <label for="est_proj_value">Estimated Project Size/Value ($):</label>
-            <!--<input class="form-control" id="est_proj_value" name="est_proj_value">-->
-            <select name="project_size" id="est_proj_value" class='form-control select2' required>
-              <option value="50000">50,000</option>
-              <option value="100000">100,000</option>
-              <option value="100000">250,000</option>
-              <option value="500000">500,000</option>
-              <option value="1000000">1,000,000</option>
-              <option value="5000000">5,000,000</option>
-              <option value="10000000">10,000,000</option>
-              <option value="25000000">25,000,000</option>
-              <option value="50000000">50,000,000</option>
-              <option value="100000000">100,000,000</option>
-              <option value="250000000">250,000,000</option>
-              <option value="500000000">500,000,000</option>
-            </select>
+            <label for="proj_title">*Total Amount:</label>
+            <input class="form-control" id="total_amount" name="total_amount">
           </div>
+
+          <div class="form-group">
+            <label for="proj_title">*Total Amount:</label>
+            <input class="form-control" id="total_amount" name="total_amount">
+          </div>
+
           <div class="form-group">
             <label for="proj_description">Project Description:</label>
             <textarea class="form-control" id="proj_desc" name="project_description" rows="3"></textarea>

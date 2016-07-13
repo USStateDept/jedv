@@ -18,7 +18,8 @@
       </div>
       <ul id="nav-bar" class="nav navbar-nav navbar-right">
         <li class="active"><a href="/map">Map</a></li>
-        <li><a href="/leadform">Add Lead</a></li>
+        <!-- TODO: Comment back in once form is fixed -->
+        <!-- <li><a href="/leadform">Add Project</a></li> -->
         <li><a href="/faq">About</a></li>
         <li><a href="/feedback">Feedback</a></li>
         {% if (currentUser.role) %}
@@ -43,7 +44,7 @@
     <div class="alert alert-danger note map-alerts">{{ message }}</div>
   {% endif %}
 
-<div class="beta-note">beta</div>
+<div class="beta-note">v0.1</div>
 
 {% include "auth/login-modal.html" %}
 {% include "auth/signup-modal.html" %}

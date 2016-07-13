@@ -3,10 +3,11 @@ $(document).ready(function() {
   $('#contactInfoFieldset').hide();
   
   var token = document.cookie.match(/^(.*;)?BIDS_ENTRY_CONTROL_TOKEN=[^;]+(.*)?$/);
-  if (!token || token == null || token == -1) {
-    var formAccess = document.getElementById("form-access");
-     formAccess.innerHTML = "<h3 class='text-center' style='margin-top:200px'>please create an account or logon from ON</h3>";
-  }
+  // TODO: comment back
+  //if (!token || token == null || token == -1) {
+  //  var formAccess = document.getElementById("form-access");
+  //   formAccess.innerHTML = "<h3 class='text-center' style='margin-top:200px'>please create an account or logon from ON</h3>";
+  //}
 });
 
 $("#leadform").submit(function(e) {
