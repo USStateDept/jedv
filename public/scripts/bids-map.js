@@ -458,15 +458,32 @@ function loadInitialData() {
  *
  * LEAD HELPER FUNCTIONS
  **/
+
+ // TODO: FINISH
 function createSingleObjArray(lead) {
 
    var leadArray = [];
 
+   leadArray.push(lead.opp_unit)
    leadArray.push(lead.project_title);
-   leadArray.push(lead.project_size.replace (/,/g, ""));
+   leadArray.push(lead.project_description);
+   leadArray.push(lead.total_amount);
+   leadArray.push(lead.appropriation_year);
+   leadArray.push(lead.obligation_year);
+   leadArray.push(lead.fund_source)
+
+   // INCONSISTENCY HERE
    leadArray.push(lead.sectors_names.toString());
    leadArray.push(lead.countries_names.toString().replace('\,',' & '));
    leadArray.push(lead.fid);
+
+   leadArray.push(lead.implementing_partner);
+   leadArray.push(lead.award_number);
+   leadArray.push(lead.fund_mechanism);
+   leadArray.push(lead.perform_start_date);
+   leadArray.push(lead.perform_end_date);
+
+/**
    leadArray.push(lead.project_announced);
    leadArray.push(lead.project_funding_source);
    leadArray.push(lead.status);
@@ -474,7 +491,7 @@ function createSingleObjArray(lead) {
    leadArray.push(lead.submitting_officer_contact);
    leadArray.push(lead.business_url);
    leadArray.push(lead.link_to_project);
-   leadArray.push(moneyFormat.to(parseInt(lead.project_size.replace (/,/g, ""))));
+   leadArray.push(moneyFormat.to(parseInt(lead.project_size.replace (/,/g, "")))); */
    //leadArray.push(nFormatter(parseInt(lead.project_size.replace (/,/g, ""),10), 2));
 
    return leadArray;
@@ -551,7 +568,7 @@ function update_map(data) {
         }],
         columns: [
             { title: "Project Title" },
-            { title: "Size" },
+            { title: "Total Amount" },
             { title: "Sector" },
             { title: "Country" },
             { title: "fid", visible: false }
@@ -584,11 +601,15 @@ function highlightMarkerWithFid(fid) {
 function poulateDetailedEntryView(data) {
 
   if (!data) { return }
-  // TODO: UPDATE THIS WITH NEW FIELDS
-  var INDEX_OF_PROJECT_TITLE = 0;
-  var INDEX_OF_PROJECT_SIZE = 1;
-  var INDEX_OF_SECTORS = 2;
-  var INDEX_OF_COUNTRY = 3;
+  // TODO 07/12: UPDATE THIS WITH NEW FIELDS, THIS IS NOT FINISHED!!
+  var INDEX_OF_OPP_UNIT = 0;
+  var INDEX_OF_PROJECT_TITLE = 1;
+  var INDEX_OF_PROJECT_DESCRIPTION = 2;
+
+  var INDEX_OF_SECTORS = 7;
+  var INDEX_OF_COUNTRY = 8;
+
+  /**
   var INDEX_OF_DATE_ADDED = 5;
   var INDEX_OF_PRIMARY_FUNDING_SOURCE = 6;
   var INDEX_OF_STATUS = 7;
@@ -596,7 +617,7 @@ function poulateDetailedEntryView(data) {
   var INDEX_OF_LEAD_POINT_OF_CONTACT = 9;
   var INDEX_OF_LINK_TO_PROJECT_EMBASSY = 10;
   var INDEX_OF_LINK_TO_PROJECT_WEBSITE = 11;
-  var INDEX_OF_FORMATTED_PROJECT_SIZE = 12;
+  var INDEX_OF_FORMATTED_PROJECT_SIZE = 12; */
 
   //helper functions for html population
   function getHeaderHtml(data) {
@@ -632,11 +653,12 @@ function poulateDetailedEntryView(data) {
     data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
   }
 
+  // TODO: ADD ALL NEW FIELDS
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
   detailedView += "<dl class=\"dl-horizontal\">";
-  detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_SECTORS]);                        // TODO: CHANGE TO OPERATING UNIT FROM SQL
+  detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);                        // TODO: CHANGE TO OPERATING UNIT FROM SQL
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_FORMATTED_PROJECT_SIZE]);           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
+  detailedView += createTagHtml('dt', 'Total amount');           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
   detailedView += createTagHtml('dt', 'Appropriation Fiscal Year');
   detailedView += createTagHtml('dt', 'Obligation Fiscal Year');
   detailedView += createTagHtml('dt', 'Fund Source');
@@ -645,7 +667,7 @@ function poulateDetailedEntryView(data) {
   detailedView += createTagHtml('dt', 'Funding Mechanism');
   detailedView += createTagHtml('dt', 'Performance Start Date');
   detailedView += createTagHtml('dt', 'Performance End Date');
-  detailedView += createTagHtml('dt', 'Region');
+  detailedView += createTagHtml('dt', 'Region') + createTagHtml('dd', data[INDEX_OF_OPP_SECTORS]);
   detailedView += createTagHtml('dt', 'Sub Region');
   detailedView += createTagHtml('dt', 'Other Geographic');
   detailedView += createTagHtml('dt', 'Theme/SPSD');
@@ -657,7 +679,7 @@ function poulateDetailedEntryView(data) {
 
   detailedView += "</dl>";
   detailedView += "<dl>";
-  detailedView += createTagHtml('dt', 'Description') + createTagHtml('i', data[INDEX_OF_DESCRIPTION], 'detailed-lead-description');
+  detailedView += createTagHtml('dt', 'Description') + createTagHtml('i', data[INDEX_OF_PROJECT_DESCRIPTION], 'detailed-lead-description');
   detailedView += "</dl>";
   detailedView += "<div class=\"text-center\">";
   if (data[INDEX_OF_LEAD_POINT_OF_CONTACT]) {

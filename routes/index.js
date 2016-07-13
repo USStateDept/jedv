@@ -241,11 +241,10 @@ module.exports = function(app, passport, envNunjucks, appRoot) {
   app.get('/profile/leads', isLoggedIn, function(req, res) {
     if (envNunjucks.getGlobal('currentUser').role == 'admin') {
        var rawSql = `
-            SELECT fid, project_title, project_number, project_size, project_description,
-            keyword, source, project_announced, tender_date, implementing_entity,
-            project_pocs, post_comments, submitting_officer, submitting_officer_contact,
-            link_to_project, business_url, cleared, archived, auto_archive_date,
-            the_geom, editable, locations,
+            SELECT fid, opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
+            fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date, region, sub_region,
+            locations, project_theme, project_pocs, public_website, cleared, editable, archived,
+            auto_archive_date, the_geom,
             array_agg(sector_id) as sectors_list, array_agg(sectors.sector) as sectors_names,
             array_agg(DISTINCT country_id)as countries_list, array_agg(DISTINCT countries.geounit) as countries_names, array_agg(DISTINCT countries.dos_region) as dos_regions
             FROM leads

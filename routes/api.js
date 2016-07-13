@@ -169,11 +169,10 @@ module.exports = function(app, passport) {
 
   app.get('/api/leads', function(req, res, next) {
     var rawSql = `
-            SELECT fid, opp_unit, project_title, project_number, project_description,
-            keyword, fund_source, project_announced, implementing_partner, project_pocs
-            post_comments, submitting_officer, total_amount, submitting_officer_contact, obligation_year,
-            appropriation_year, award_number, fund_mechanism, public_website, cleared, editable, archived,
-            auto_archive_date, the_geom, locations, region, sub_region,
+            SELECT fid, opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
+            fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date, region, sub_region,
+            locations, project_theme, project_pocs, public_website, cleared, editable, archived,
+            auto_archive_date, the_geom,
             array_agg(sector_id) as sectors_list, array_agg(sectors.sector) as sectors_names,
             array_agg(DISTINCT country_id)as countries_list, array_agg(DISTINCT countries.geounit) as countries_names, array_agg(DISTINCT countries.dos_region) as dos_regions
             FROM leads

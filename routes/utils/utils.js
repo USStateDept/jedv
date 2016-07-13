@@ -348,11 +348,9 @@ function insertLeadObject(data) {
             var subContact  = !data.submitting_officer_contact ? null : strip(data.submitting_officer_contact);
 
             var queryText = `INSERT INTO leads(
-                    opp_unit, project_title, project_number, project_theme, project_description, 
-                    keyword, fund_source, project_announced, implementing_partner, post_comments, 
-                    project_pocs, post_comments, submitting_officer, total_amount, submitting_officer_contact, 
-                    obligation_year, appropriation_year, award_number, fund_mechanism, public_website, cleared,
-                    editable, archived, auto_archive_date, the_geom, locations, region, sub_region)
+            opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
+            fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date, region, sub_region,
+            locations, project_theme, project_pocs, public_website, cleared, editable, archived, auto_archive_date, the_geom)
                 VALUES (
                     $1, $2, $3, $4, 
                     $5, $6, $7, $8, $9, 
