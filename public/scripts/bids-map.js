@@ -123,6 +123,7 @@ TraverseCluster.prototype.traverse = function(obj){
 // -------------------------------------------------------------------
 
 // Summary Project Modal Class ---------------------------------------
+// TODO: FINISH
 function SummaryModal(project) {
 
   this.elemID = project.fid
@@ -135,7 +136,6 @@ function SummaryModal(project) {
   this.description = project.project_description
   this.website = project.link_to_project
   this.contact = project.submitting_officer_contact
-  this.sector = project.sectors_names.toString();
   // more accessible variables can go here, even the whole object
 }
 
@@ -236,7 +236,7 @@ markers
         'text': sortedRanks[i].project_title
       }).data("data", sortedRanks[i]);
       spanElement.append( $('<p>').text(sortedRanks[i].countries_names.toString().replace(/,/g," & ")));
-      spanElement.append( $('<p>').text(nFormatter(parseInt(sortedRanks[i].project_size.replace (/,/g, ""),10), 2)));
+      // TODO: IMPLEMENT WITH TOTAL_AMOUNT //spanElement.append( $('<p>').text(nFormatter(parseInt(sortedRanks[i].project_size.replace (/,/g, ""),10), 2)));
       rankHtml += '<br/>' + spanElement[0].outerHTML;
     }
 
@@ -473,9 +473,9 @@ function createSingleObjArray(lead) {
    leadArray.push(lead.fund_source)
 
    // INCONSISTENCY HERE
-   leadArray.push(lead.sectors_names.toString());
+   //leadArray.push(lead.sectors_names.toString());
    leadArray.push(lead.countries_names.toString().replace('\,',' & '));
-   leadArray.push(lead.fid);
+   //leadArray.push(lead.fid);
 
    leadArray.push(lead.implementing_partner);
    leadArray.push(lead.award_number);
@@ -497,9 +497,11 @@ function createSingleObjArray(lead) {
    return leadArray;
 }
 
-map.on('move', function() {
+// TODO: REIMPLEMENT
+  // THIS CONTROLS THE ELEMENTS IN VIEW WHEN ZOOMING IN/OUT
+/*map.on('move', function() {
   _state.setFilter('map-bounds', null, false);
-});
+});*/
 
 function extractDataForDatatable(leads) {
    var convertedLeadsArray = [];
@@ -649,9 +651,10 @@ function poulateDetailedEntryView(data) {
     }
   }
 
-  if (!data[INDEX_OF_DESCRIPTION]) {
-    data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
-  }
+  // TODO: REIMPLEMENT
+  //if (!data[INDEX_OF_DESCRIPTION]) {
+  //  data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
+  //}
 
   // TODO: ADD ALL NEW FIELDS
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
@@ -667,7 +670,7 @@ function poulateDetailedEntryView(data) {
   detailedView += createTagHtml('dt', 'Funding Mechanism');
   detailedView += createTagHtml('dt', 'Performance Start Date');
   detailedView += createTagHtml('dt', 'Performance End Date');
-  detailedView += createTagHtml('dt', 'Region') + createTagHtml('dd', data[INDEX_OF_OPP_SECTORS]);
+  detailedView += createTagHtml('dt', 'Region');
   detailedView += createTagHtml('dt', 'Sub Region');
   detailedView += createTagHtml('dt', 'Other Geographic');
   detailedView += createTagHtml('dt', 'Theme/SPSD');
@@ -682,6 +685,9 @@ function poulateDetailedEntryView(data) {
   detailedView += createTagHtml('dt', 'Description') + createTagHtml('i', data[INDEX_OF_PROJECT_DESCRIPTION], 'detailed-lead-description');
   detailedView += "</dl>";
   detailedView += "<div class=\"text-center\">";
+
+// TODO: PUT BACK IN( THESE ARE THE BUTTONS)
+/**
   if (data[INDEX_OF_LEAD_POINT_OF_CONTACT]) {
     detailedView += "<a class=\"detailed-lead-icon\" data-placement=\"top\" data-toggle=\"tooltip\" title=\"Email lead point of contact\" href=\"mailto:" +
       data[INDEX_OF_LEAD_POINT_OF_CONTACT] + "\"><i class=\"fa fa-envelope fa-5\" aria-hidden=\"true\"></i></a>";
@@ -694,6 +700,8 @@ function poulateDetailedEntryView(data) {
     detailedView += "<a class=\"detailed-lead-icon\" data-toggle=\"tooltip\" title=\"Link to Project website\" href=\"" +
       data[INDEX_OF_LINK_TO_PROJECT_WEBSITE] + "\"><i class=\"fa fa-globe fa-5\" aria-hidden=\"true\"></i></a>";
   }
+  */
+
   detailedView += "<div>";
   $('.section--detailed-lead').html(detailedView);
 }
@@ -742,7 +750,7 @@ function update_map_markers(leadObj){
   _.forEach(leadObj.locations.data, function(location,i) {
         var marker = L.marker(L.latLng(location.lat, location.lng));
 
-        marker.bindPopup("<b>"+leadObj.project_title+"</b><br/>"+leadObj.country+"<br/>"+ nFormatter(parseInt(leadObj.project_size.replace (/,/g, ""),10),2));
+        marker.bindPopup("<b>"+leadObj.opp_unit+"</b><br/>"+leadObj.project_title+"</b><br/>"+leadObj.country+"<br/>"); //TODO: ADD BACK IN: + nFormatter(parseInt(leadObj.total_amount.replace (/,/g, ""),10),2)
         marker.lat = location.lat;
         marker.lng = location.lng;
         marker.dataObject = leadObj;
@@ -808,6 +816,8 @@ DataState.prototype.filter = function () {
     var inTerms = true;
     var isInMapBounds = true;
 
+    // TODO: Put correct fields here
+
     // countries selected
     inCountries = _.intersection( this.filterCountries, element.countries_list).length > 0;
 
@@ -818,7 +828,7 @@ DataState.prototype.filter = function () {
     inRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
 
     // size
-    inSize = parseInt(element.project_size.replace (/,/g, ""),10) >= this.filterSizeMin && parseInt(element.project_size.replace (/,/g, ""),10) <= this.filterSizeMax;
+    //inSize = parseInt(element.project_size.replace (/,/g, ""),10) >= this.filterSizeMin && parseInt(element.project_size.replace (/,/g, ""),10) <= this.filterSizeMax;
 
     function isLeadInMapBounds(element) {
       var inBounds = false;
@@ -827,7 +837,9 @@ DataState.prototype.filter = function () {
       _.forEach(element.locations.data,function(loc) {
         inBounds = bounds.contains(L.latLng(loc.lat, loc.lng));
       })
-      return inBounds;
+      // TODO
+      //return inBounds;
+      return true;
     }
 
     isInMapBounds = isLeadInMapBounds(element);
@@ -839,7 +851,7 @@ DataState.prototype.filter = function () {
     }
 
 
-    return inCountries && inSectors && inSize && inTerms && inRegions && isInMapBounds;
+    return inCountries && inSectors && inSize && inTerms && inRegions; //&& isInMapBounds;
   }
 
   newData = this.data.filter(applyFilter.bind(this));

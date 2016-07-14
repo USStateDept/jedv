@@ -129,6 +129,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
+console.log("probably won't get here");
+
 
 if (app.get('env') === 'production') {
   // production error handler

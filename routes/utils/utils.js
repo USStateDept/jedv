@@ -324,7 +324,7 @@ function insertLeadObject(data) {
             var opp_unit            = !data.opp_unit            ? "JEDV" : strip(data.opp_unit);
             var project_title       = !data.project_title       ? "NO TITLE" : strip(data.project_title);
             var project_description = !data.project_description ? "NO DESC" : strip(data.project_description);
-            var total_amount        = !data.total_amount        ? null : strip(data.total_amount);
+            var total_amount        = !data.total_amount        ? 1000 : strip(data.total_amount);
             var appropriation_year  = !data.appropriation_year  ? null : strip(data.appropriation_year);
             var obligation_year     = !data.obligation_year     ? null : strip(data.obligation_year);
             var fund_source         = !data.fund_source         ? "JEDV" : strip(data.fund_source);

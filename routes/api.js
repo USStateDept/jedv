@@ -169,14 +169,12 @@ module.exports = function(app, passport) {
 
   app.get('/api/leads', function(req, res, next) {
     var rawSql = `
-            SELECT fid, opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
+           SELECT fid, opp_unit, project_title, project_description, total_amount, appropriation_year, obligation_year,
             fund_source, implementing_partner, award_number, fund_mechanism, perform_start_date, perform_end_date, region, sub_region,
             locations, project_theme, project_pocs, public_website, cleared, editable, archived,
             auto_archive_date, the_geom,
-            array_agg(sector_id) as sectors_list, array_agg(sectors.sector) as sectors_names,
             array_agg(DISTINCT country_id)as countries_list, array_agg(DISTINCT countries.geounit) as countries_names, array_agg(DISTINCT countries.dos_region) as dos_regions
             FROM leads
-            INNER JOIN leads_sectors ON leads.fid = leads_sectors.lead_fid INNER JOIN sectors ON leads_sectors.sector_id = sectors.id
             INNER JOIN leads_countries ON leads.fid = leads_countries.lead_fid INNER JOIN countries ON leads_countries.country_id = countries.id
             GROUP BY leads.fid`;
     // new LeadsModel.Leads()
