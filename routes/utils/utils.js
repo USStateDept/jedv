@@ -322,12 +322,12 @@ function insertLeadObject(data) {
             console.log("DATA ========================================== DATA")
             console.log(data.locations)
             var opp_unit            = !data.opp_unit            ? "JEDV" : strip(data.opp_unit);
-            var project_title       = !data.project_title       ? "NO TITLE" : strip(data.project_title);
-            var project_description = !data.project_description ? "NO DESC" : strip(data.project_description);
-            var total_amount        = !data.total_amount        ? 1000 : strip(data.total_amount);
+            var project_title       = !data.project_title       ? "No title is available for this project" : strip(data.project_title);
+            var project_description = !data.project_description ? "No description is available for this project" : strip(data.project_description);
+            var total_amount        = !data.total_amount        ? 0 : strip(data.total_amount);
             var appropriation_year  = !data.appropriation_year  ? null : strip(data.appropriation_year);
             var obligation_year     = !data.obligation_year     ? null : strip(data.obligation_year);
-            var fund_source         = !data.fund_source         ? "JEDV" : strip(data.fund_source);
+            var fund_source         = !data.fund_source         ? opp_unit : strip(data.fund_source);
             var implementing_partner= !data.implementing_partner? null : strip(data.implementing_partner);
             var award_number        = !data.award_number        ? null : strip(data.award_number);
             var fund_mechanism      = !data.fund_mechanism      ? null : strip(data.fund_mechanism);

@@ -453,17 +453,36 @@ function loadInitialData() {
     });
 }
 
+// checks to see that we're not returning something we don't want
+function isLeadElementValid(item) {
+  return item !== 'fid' && item !== 'cleared' && item !== 'editable' && item !== 'archived' && item !== 'auto_archive_date' && item !== 'the_geom' && item !== 'countries_list';
+}
 
 /**
  *
  * LEAD HELPER FUNCTIONS
  **/
 
- // TODO: FINISH
+ // TODO: 
+    // DONE: UPDATE METHOD TO DYNAMICALLY ADD ARRAY MEMBERS
+    // OTHER GEOGRAPHIC ISSUE
 function createSingleObjArray(lead) {
+  console.log('==============================');
 
-   var leadArray = [];
+  var leadArray = [];
+  
+  Object.keys(lead).forEach(function(key) {
 
+    if (isLeadElementValid(key))
+    {
+      leadArray.push(lead[key])
+      console.log(key, lead[key]);
+    }
+  });
+
+
+
+/**
    leadArray.push(lead.opp_unit)
    leadArray.push(lead.project_title);
    leadArray.push(lead.project_description);
@@ -471,6 +490,8 @@ function createSingleObjArray(lead) {
    leadArray.push(lead.appropriation_year);
    leadArray.push(lead.obligation_year);
    leadArray.push(lead.fund_source)
+   leadArray.push(lead.implementing_partner);
+   leadArray.push(lead.award_number);
 
    // INCONSISTENCY HERE
    //leadArray.push(lead.sectors_names.toString());
@@ -603,23 +624,26 @@ function highlightMarkerWithFid(fid) {
 function poulateDetailedEntryView(data) {
 
   if (!data) { return }
-  // TODO 07/12: UPDATE THIS WITH NEW FIELDS, THIS IS NOT FINISHED!!
+
   var INDEX_OF_OPP_UNIT = 0;
   var INDEX_OF_PROJECT_TITLE = 1;
   var INDEX_OF_PROJECT_DESCRIPTION = 2;
-
-  var INDEX_OF_SECTORS = 7;
-  var INDEX_OF_COUNTRY = 8;
-
-  /**
-  var INDEX_OF_DATE_ADDED = 5;
-  var INDEX_OF_PRIMARY_FUNDING_SOURCE = 6;
-  var INDEX_OF_STATUS = 7;
-  var INDEX_OF_DESCRIPTION = 8;
-  var INDEX_OF_LEAD_POINT_OF_CONTACT = 9;
-  var INDEX_OF_LINK_TO_PROJECT_EMBASSY = 10;
-  var INDEX_OF_LINK_TO_PROJECT_WEBSITE = 11;
-  var INDEX_OF_FORMATTED_PROJECT_SIZE = 12; */
+  var INDEX_OF_TOTAL_AMOUNT = 3;
+  var INDEX_OF_APPROPRIATION_YEAR = 4;
+  var INDEX_OF_OBLIGATION_YEAR = 5;
+  var INDEX_OF_FUND_SOURCE = 6;
+  var INDEX_OF_IMPLEMENTING_PARTNER = 7;
+  var INDEX_OF_AWARD_NUMBER = 8;
+  var INDEX_OF_FUND_MECHANISM = 9;
+  var INDEX_OF_PERFORM_START_DATE = 10;
+  var INDEX_OF_PERFORM_END_DATE = 11;
+  var INDEX_OF_COUNTRY = 18;
+  var INDEX_OF_REGION = 19;
+  var INDEX_OF_SUB_REGION = 13;
+  var INDEX_OF_LOCATIONS = 14;
+  var INDEX_OF_PROJECT_THEME = 15;
+  var INDEX_OF_PROJECT_POCS = 16;
+  var INDEX_OF_PUBLIC_WEBSITE = 17;
 
   //helper functions for html population
   function getHeaderHtml(data) {
@@ -661,24 +685,21 @@ function poulateDetailedEntryView(data) {
   detailedView += "<dl class=\"dl-horizontal\">";
   detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);                        // TODO: CHANGE TO OPERATING UNIT FROM SQL
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Total amount');           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
-  detailedView += createTagHtml('dt', 'Appropriation Fiscal Year');
-  detailedView += createTagHtml('dt', 'Obligation Fiscal Year');
-  detailedView += createTagHtml('dt', 'Fund Source');
-  detailedView += createTagHtml('dt', 'Implementing Partner');
-  detailedView += createTagHtml('dt', 'Award Number');
-  detailedView += createTagHtml('dt', 'Funding Mechanism');
-  detailedView += createTagHtml('dt', 'Performance Start Date');
-  detailedView += createTagHtml('dt', 'Performance End Date');
-  detailedView += createTagHtml('dt', 'Region');
-  detailedView += createTagHtml('dt', 'Sub Region');
-  detailedView += createTagHtml('dt', 'Other Geographic');
-  detailedView += createTagHtml('dt', 'Theme/SPSD');
-  detailedView += createTagHtml('dt', 'Point of Contact');
-  detailedView += createTagHtml('dt', 'Public Website') + '<dd></dd>'; // TODO: REMOVE THIS
-  //detailedView += createTagHtml('dt', '?Date Added') + createTagHtml('dd', formatDate(data[INDEX_OF_DATE_ADDED]));
-  //detailedView += createTagHtml('dt', '?Primary Funding Source') + createTagHtml('dd', data[INDEX_OF_PRIMARY_FUNDING_SOURCE]);
-  //detailedView += createTagHtml('dt', '?Status') + createTagHtml('dd', data[INDEX_OF_STATUS]);
+  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_TOTAL_AMOUNT]);           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
+  detailedView += createTagHtml('dt', 'Appropriation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_APPROPRIATION_YEAR]);
+  detailedView += createTagHtml('dt', 'Obligation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_OBLIGATION_YEAR]);
+  detailedView += createTagHtml('dt', 'Fund Source') + createTagHtml('dd', data[INDEX_OF_FUND_SOURCE]);
+  detailedView += createTagHtml('dt', 'Implementing Partner') + createTagHtml('dd', data[INDEX_OF_IMPLEMENTING_PARTNER]);
+  detailedView += createTagHtml('dt', 'Award Number') + createTagHtml('dd', data[INDEX_OF_AWARD_NUMBER]);
+  detailedView += createTagHtml('dt', 'Funding Mechanism') + createTagHtml('dd', data[INDEX_OF_FUND_MECHANISM]);
+  detailedView += createTagHtml('dt', 'Performance Start Date') + createTagHtml('dd', data[INDEX_OF_PERFORM_START_DATE]);
+  detailedView += createTagHtml('dt', 'Performance End Date') + createTagHtml('dd', data[INDEX_OF_PERFORM_END_DATE]);
+  detailedView += createTagHtml('dt', 'Region') + createTagHtml('dd', data[INDEX_OF_REGION]);
+  detailedView += createTagHtml('dt', 'Sub Region') + createTagHtml('dd', data[INDEX_OF_SUB_REGION]);
+  detailedView += createTagHtml('dt', 'Other Geographic') + createTagHtml('dd', data[INDEX_OF_LOCATIONS]);
+  detailedView += createTagHtml('dt', 'Theme/SPSD') + createTagHtml('dd', data[INDEX_OF_PROJECT_THEME]);
+  detailedView += createTagHtml('dt', 'Point of Contact') + createTagHtml('dd', data[INDEX_OF_PROJECT_POCS]);
+  detailedView += createTagHtml('dt', 'Public Website') + createTagHtml('dd', data[INDEX_OF_PUBLIC_WEBSITE]);
 
   detailedView += "</dl>";
   detailedView += "<dl>";
@@ -687,20 +708,15 @@ function poulateDetailedEntryView(data) {
   detailedView += "<div class=\"text-center\">";
 
 // TODO: PUT BACK IN( THESE ARE THE BUTTONS)
-/**
-  if (data[INDEX_OF_LEAD_POINT_OF_CONTACT]) {
+console.log(data[INDEX_OF_COUNTRY]);
+  if (data[INDEX_OF_PROJECT_POCS]) {
     detailedView += "<a class=\"detailed-lead-icon\" data-placement=\"top\" data-toggle=\"tooltip\" title=\"Email lead point of contact\" href=\"mailto:" +
-      data[INDEX_OF_LEAD_POINT_OF_CONTACT] + "\"><i class=\"fa fa-envelope fa-5\" aria-hidden=\"true\"></i></a>";
+      data[INDEX_OF_PROJECT_POCS] + "\"><i class=\"fa fa-envelope fa-5\" aria-hidden=\"true\"></i></a>";
   }
-  if (data[INDEX_OF_LINK_TO_PROJECT_EMBASSY]) {
-    detailedView += "<a class=\"detailed-lead-icon\" data-toggle=\"tooltip\" title=\"Link to Project embassy\" href=\"" +
-      data[INDEX_OF_LINK_TO_PROJECT_EMBASSY] + "\"><i class=\"fa fa-home fa-5\" aria-hidden=\"true\"></i></a>";
-  }
-  if (data[INDEX_OF_LINK_TO_PROJECT_WEBSITE]) {
+  if (data[INDEX_OF_PUBLIC_WEBSITE]) {
     detailedView += "<a class=\"detailed-lead-icon\" data-toggle=\"tooltip\" title=\"Link to Project website\" href=\"" +
-      data[INDEX_OF_LINK_TO_PROJECT_WEBSITE] + "\"><i class=\"fa fa-globe fa-5\" aria-hidden=\"true\"></i></a>";
+      data[INDEX_OF_PUBLIC_WEBSITE] + "\"><i class=\"fa fa-globe fa-5\" aria-hidden=\"true\"></i></a>";
   }
-  */
 
   detailedView += "<div>";
   $('.section--detailed-lead').html(detailedView);
@@ -851,7 +867,7 @@ DataState.prototype.filter = function () {
     }
 
 
-    return inCountries && inSectors && inSize && inTerms && inRegions; //&& isInMapBounds;
+    return inCountries && inSize && inTerms && inRegions; //&& isInMapBounds;
   }
 
   newData = this.data.filter(applyFilter.bind(this));
