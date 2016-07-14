@@ -112,14 +112,15 @@ i.fa {
 .beta-note {
   background-color: #1E194D;
   color: white;
-  width: 60px;
+  width: 120px;
   top: 50px;
   position: absolute;
   font-size: 16px;
   padding: 3px;
   z-index: 999999999999;
   text-align: center;
-  left: 20px
+  left: 20px;
+  opacity: 0.05;
 }
 
 .select2-search__field{
@@ -176,6 +177,6 @@ i.fa {
         text-align: center;
         left: 15px;
         top: inherit;
-
+        opacity: 0.2;
     }
 }

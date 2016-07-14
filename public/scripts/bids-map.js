@@ -266,7 +266,7 @@ $('[data-toggle="tooltip"]').tooltip();
 $("#search-input").select2({
   tags: true,
   tokenSeparators: [','],
-  placeholder: "Search for a lead"
+  placeholder: "Search for a project..."
 }).
 on("change",function(e){
   _state.setFilter('search-terms',$("#search-input").val(), false);
@@ -467,7 +467,6 @@ function isLeadElementValid(item) {
     // DONE: UPDATE METHOD TO DYNAMICALLY ADD ARRAY MEMBERS
     // OTHER GEOGRAPHIC ISSUE
 function createSingleObjArray(lead) {
-  console.log('==============================');
 
   var leadArray = [];
   
@@ -476,7 +475,8 @@ function createSingleObjArray(lead) {
     if (isLeadElementValid(key))
     {
       leadArray.push(lead[key])
-      console.log(key, lead[key]);
+      // uncomment below to see whats in our object
+      //console.log(key, lead[key]);
     }
   });
 
@@ -590,9 +590,9 @@ function update_map(data) {
           }
         }],
         columns: [
+            { title: "Operating Unit" },
             { title: "Project Title" },
             { title: "Total Amount" },
-            { title: "Sector" },
             { title: "Country" },
             { title: "fid", visible: false }
         ]
@@ -675,17 +675,16 @@ function poulateDetailedEntryView(data) {
     }
   }
 
-  // TODO: REIMPLEMENT
-  //if (!data[INDEX_OF_DESCRIPTION]) {
-  //  data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
-  //}
+  // TODO: PUT THIS BACK
+  // if (!data[INDEX_OF_DESCRIPTION]) {
+  //   data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
+  // }
 
-  // TODO: ADD ALL NEW FIELDS
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
   detailedView += "<dl class=\"dl-horizontal\">";
-  detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);                        // TODO: CHANGE TO OPERATING UNIT FROM SQL
+  detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_TOTAL_AMOUNT]);           // TODO: CHANGE PROJECT SIZE TO TOTAL AMOUNT
+  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_TOTAL_AMOUNT]);
   detailedView += createTagHtml('dt', 'Appropriation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_APPROPRIATION_YEAR]);
   detailedView += createTagHtml('dt', 'Obligation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_OBLIGATION_YEAR]);
   detailedView += createTagHtml('dt', 'Fund Source') + createTagHtml('dd', data[INDEX_OF_FUND_SOURCE]);
@@ -783,12 +782,29 @@ function update_map_markers(leadObj){
 function DataState() {
   this.data = []; // populates on intial data grab
   this.listeners = []; // populates explicity
-  this.initialCountries = [] // populates on country get
+
+  /* DEPRECATED */
   this.initialSectors = [] // populates on sector get
+  /*            */
+
+  this.initialCountries = [] // populates on country get
   this.initialRegions = [] // populates on region get
+  this.initialOpUnit = []
+  this.initialSubRegions = []
+  this.initialObFiscalYear = []
+  this.initialFundSource = []
+
   this.filterCountries = []; // populates/changes on filter && intial load
   this.filterRegions = []; // populates/changes on filter && intial load
+  this.filterOpUnit = [];
+  this.filterSubRegions = []
+  this.filterObFiscalyear = []
+  this.filterFundSource = []
+
+  /* DEPRECATED */
   this.filterSectors = []; // populates/changes on filter && intial load
+  /*            */
+
   this.filterLeadsByBounds = []; // populates/changes on filter && intial load
   this.filterTerms = []; // populates with strings user types in
   this.filterSizeMin = 0; // changes on filter
@@ -827,7 +843,16 @@ DataState.prototype.filter = function () {
   function applyFilter(element) {
     var inRegions = true;
     var inCountries = true;
+    var inOpUnit = true;
+    var inSubRegions = true;
+    var inObFiscalYear = true;
+    var inFundSource = true;
+
+
+    /* DEPRECATED */
     var inSectors = true;
+    /*            */
+
     var inSize = true;
     var inTerms = true;
     var isInMapBounds = true;
@@ -836,12 +861,20 @@ DataState.prototype.filter = function () {
 
     // countries selected
     inCountries = _.intersection( this.filterCountries, element.countries_list).length > 0;
+    inRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
+    inOpUnit = _.intersection( this.filterRegions, element.operating_unit).length > 0;
+    inSubRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
+    inObFiscalYear = _.intersection( this.filterRegions, element.obligation_year).length > 0;
+    inFundSource = _.intersection( this.filterRegions, element.fund_source).length > 0;
 
+
+
+    /* DEPRECATED */
     // sectors selected
     inSectors = _.intersection( this.filterSectors, element.sectors_list).length > 0;
+    /*            */
 
-     // countries selected
-    inRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
+
 
     // size
     //inSize = parseInt(element.project_size.replace (/,/g, ""),10) >= this.filterSizeMin && parseInt(element.project_size.replace (/,/g, ""),10) <= this.filterSizeMax;
@@ -893,6 +926,21 @@ DataState.prototype.setFilter = function (type, option, initial) {
         });
       }
       break;
+
+    case 'operating_unit':
+      if (option.checked || initial) {
+        this.filterOpUnit.push(option.value);
+        if(!option.checked) {
+          this.initialOpUnit.push(option.value); // intial load
+        }
+      }
+      else {
+        this.filterOpUnit = _.remove(this.filterOpUnit, function(reg) {
+           return op != option.value;
+        });
+      }
+      break;
+
     case 'region':
       if (option.checked || initial) {
         this.filterRegions.push(option.value);
