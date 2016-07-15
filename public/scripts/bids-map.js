@@ -145,6 +145,7 @@ SummaryModal.prototype.buildSummary = function(){
   // decide whether or not to create a contact link
   var contactLink = (this.contact != undefined ? "<a href='mailto:"+this.contact+"'>contact</a>" : "<p>no contact</p>")
   // summary modal
+  //TODO: update to new fields
   var modalHTML = '' +
     '<div id="'+this.elemID+'" class="modal fade" data-remote="true" role="dialog">' +
         '<div class="modal-dialog">' +
@@ -255,9 +256,21 @@ markers
   });
 
 
-build_sectors_filter();
+// TODO: REMOVE SECTORS
+/* DEPRECATED */
+// build_sectors_filter();
+/*            */
+
+
+build_operating_unit_filter();
 build_countries_filter();
 build_regions_filter();
+
+// add back in
+/*build_sub_region_filter();
+build_ob_year_filter()
+build_fund_source_filter();*/
+
 
 
 //set the left margin on the second tooltip
@@ -370,6 +383,38 @@ function build_sectors_filter(){
       });
 }
 
+function build_operating_unit_filter(){
+  var checkToggle  = $(".filter.operating_unit span");
+
+  checkToggle.on("click.select2",function(){
+
+    if ( checkToggle.hasClass("checked") ){
+      checkToggle.html("Select All");
+      $("#operating_unit-filter").multiselect("deselectAll",false).multiselect('refresh');
+      markers.clearLayers();
+      $("#results-summary").html('');
+      checkToggle.removeClass("checked");
+    } else {
+      checkToggle.html("Unselect All");
+      $("#operating_unit-filter").multiselect("selectAll",false).multiselect('refresh');
+      checkToggle.addClass("checked");
+    }
+  });
+
+    $.getJSON("/api/leads/opp_unit")
+      .done(function(data){
+        var oppUnitHTML = '';
+        _.each(data,function(item){
+          _state.setFilter('operating_unit',{value:item}, true);
+          var oppUnitChoice = '<div class="operating_unit-filter-choice" id="' + item + '"><label><input id="filter-operating_unit-checkbox" type="checkbox" value="'+item+'" onchange="_state.setFilter(\'operating_unit\', this)" checked>'+item+'</label><br /></div>';
+          oppUnitHTML += oppUnitChoice;
+        });
+
+//        console.log(oppUnitHTML);
+        $( oppUnitHTML ).appendTo( ".filter-operating_unit-checkboxes" );
+      });
+}
+
 function build_countries_filter(){
   var checkToggle  = $(".filter.country span");
 
@@ -405,6 +450,7 @@ function build_countries_filter(){
           countriesByLetterHTML += thisCountrysHTML;
         })
         $( letterHTML ).appendTo( ".filter-country-checkboxes" );
+        //console.log(countriesByLetterHTML);
         $( countriesByLetterHTML ).appendTo( letterID );
       });
     });
@@ -520,9 +566,9 @@ function createSingleObjArray(lead) {
 
 // TODO: REIMPLEMENT
   // THIS CONTROLS THE ELEMENTS IN VIEW WHEN ZOOMING IN/OUT
-/*map.on('move', function() {
+map.on('move', function() {
   _state.setFilter('map-bounds', null, false);
-});*/
+});
 
 function extractDataForDatatable(leads) {
    var convertedLeadsArray = [];
@@ -707,7 +753,7 @@ function poulateDetailedEntryView(data) {
   detailedView += "<div class=\"text-center\">";
 
 // TODO: PUT BACK IN( THESE ARE THE BUTTONS)
-console.log(data[INDEX_OF_COUNTRY]);
+//console.log(data[INDEX_OF_COUNTRY]);
   if (data[INDEX_OF_PROJECT_POCS]) {
     detailedView += "<a class=\"detailed-lead-icon\" data-placement=\"top\" data-toggle=\"tooltip\" title=\"Email lead point of contact\" href=\"mailto:" +
       data[INDEX_OF_PROJECT_POCS] + "\"><i class=\"fa fa-envelope fa-5\" aria-hidden=\"true\"></i></a>";
@@ -860,12 +906,26 @@ DataState.prototype.filter = function () {
     // TODO: Put correct fields here
 
     // countries selected
+    
+    /* TODO: 
+     * For some reason, opp_unit is passed in as a single element rather than an array, so it is concatenated to an array below.
+     * This needs to be fixed because it should NOT be passed as a String.
+     * For the sake of time though this is what I've done
+     */ 
+    /*
+    console.log('intersection thanggg', _.intersection( this.filterOpUnit, element.opp_unit).length > 0);
+    console.log('filterOpUnit', this.filterOpUnit);
+    console.log('opp_unit', [element.opp_unit]);
+    console.log('HELLO')
+    console.log('intersection', _.intersection( this.filterOpUnit, [element.opp_unit]));
+*/
+
     inCountries = _.intersection( this.filterCountries, element.countries_list).length > 0;
     inRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
-    inOpUnit = _.intersection( this.filterRegions, element.operating_unit).length > 0;
-    inSubRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
-    inObFiscalYear = _.intersection( this.filterRegions, element.obligation_year).length > 0;
-    inFundSource = _.intersection( this.filterRegions, element.fund_source).length > 0;
+    inOpUnit = _.intersection( this.filterOpUnit, [element.opp_unit]).length > 0;
+    inSubRegions = _.intersection( this.filterSubRegions, element.sub_region).length > 0;
+    inObFiscalYear = _.intersection( this.filterObFiscalyear, element.obligation_year).length > 0;
+    inFundSource = _.intersection( this.filterFundSource, element.fund_source).length > 0;
 
 
 
@@ -899,8 +959,8 @@ DataState.prototype.filter = function () {
        inTerms = (new RegExp(this.filterTerms.join("|")).test(splitElement));
     }
 
-
-    return inCountries && inSize && inTerms && inRegions; //&& isInMapBounds;
+    console.log(inOpUnit)
+    return inCountries && inSize && inTerms && inRegions && inOpUnit; //&& isInMapBounds;
   }
 
   newData = this.data.filter(applyFilter.bind(this));
@@ -928,17 +988,38 @@ DataState.prototype.setFilter = function (type, option, initial) {
       break;
 
     case 'operating_unit':
+      console.log('hello');
       if (option.checked || initial) {
         this.filterOpUnit.push(option.value);
         if(!option.checked) {
           this.initialOpUnit.push(option.value); // intial load
         }
+        console.log('restored array should be ', this.filterOpUnit)
       }
       else {
-        this.filterOpUnit = _.remove(this.filterOpUnit, function(reg) {
+        this.filterOpUnit = _.remove(this.filterOpUnit, function(op) {
            return op != option.value;
         });
+        console.log('empty array should be ', this.filterOpUnit)
       }
+      break;
+
+    case 'operating_unit-all-remove':
+    console.log('hello2')
+    $('.filter-operating_unit.active')
+        .find('input[type=checkbox]')
+        .prop('checked', false);
+      this.filterOpUnit = [];
+
+      break;
+
+    case 'operating_unit-all-select':
+      $('.filter-operating_unit.active')
+        .find('input[type=checkbox]')
+        .prop('checked', true);
+      this.filterOpUnit = this.initialOpUnit;
+      console.log(this.filterOpUnit)
+      console.log(this.initialOpUnit)
       break;
 
     case 'region':
@@ -954,8 +1035,10 @@ DataState.prototype.setFilter = function (type, option, initial) {
         });
       }
       break;
+
     case 'map-bounds':
       break;
+
     case 'region-all-remove':
     $('.filter-regions.active')
         .find('input[type=checkbox]')
@@ -1015,6 +1098,7 @@ DataState.prototype.setFilter = function (type, option, initial) {
       this.filterTerms = option;
       break;
     default:
+      console.log(type, option, initial)
       console.log("filter not applied!");
       break;
   }
@@ -1042,6 +1126,7 @@ function registerStateListeners() {
 registerStateListeners();
 loadInitialData();
 
+// TODO: Update with new fields
 $( "#subscribe-form" ).submit(function( event ) {
   event.preventDefault();
 
@@ -1053,8 +1138,8 @@ $( "#subscribe-form" ).submit(function( event ) {
     "email":       email,
     "whento":      whento,
     "countries":   _state.filterCountries,
+    "operating units": _state.filterOpUnit,
     "regions":     _state.filterRegions,
-    "sectors":     _state.filterSectors,
     "searchTerms": _state.filterTerms,
     "min-size":    _state.filterSizeMin,
     "max-size":    _state.filterSizeMax

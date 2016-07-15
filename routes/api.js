@@ -220,6 +220,47 @@ module.exports = function(app, passport) {
       });
   });
 
+  app.get('/api/leads/opp_unit', function(req, res, next) {
+    bookshelf.db.knex('leads')
+      .columns('opp_unit')
+      .distinct('fid')
+      .orderBy('fid')
+      .then(function(collection) {
+        res.status(200).json(_.uniq(collection.map(c =>{ return c.opp_unit})));
+      });
+
+  });
+
+  app.get('/api/leads/sub_region', function(req, res, next) {
+    bookshelf.db.knex('leads')
+      .columns('sub_region')
+      .distinct('fid')
+      .orderBy('fid')
+      .then(function(collection) {
+        res.status(200).json(collection);
+      });
+  });
+
+  app.get('/api/leads/obligation_year', function(req, res, next) {
+    bookshelf.db.knex('leads')
+      .columns('obligation_year')
+      .distinct('fid')
+      .orderBy('fid')
+      .then(function(collection) {
+        res.status(200).json(collection);
+      });
+  });
+
+  app.get('/api/leads/fund_source', function(req, res, next) {
+    bookshelf.db.knex('leads')
+      .columns('fund_source')
+      .distinct('fid')
+      .orderBy('fid')
+      .then(function(collection) {
+        res.status(200).json(collection);
+      });
+  });
+
   /* POSSIBLY UNNECESSARY 160418 */
   app.get('/api/regions', function(req, res, next) {
     bookshelf.db.knex('regions')
