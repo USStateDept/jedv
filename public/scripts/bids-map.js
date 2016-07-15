@@ -265,11 +265,13 @@ markers
 build_operating_unit_filter();
 build_countries_filter();
 build_regions_filter();
+build_sub_regions_filter();
+build_obligation_year_filter()
+build_fund_source_filter();
 
 // add back in
 /*build_sub_region_filter();
-build_ob_year_filter()
-build_fund_source_filter();*/
+*/
 
 
 
@@ -412,6 +414,103 @@ function build_operating_unit_filter(){
 
 //        console.log(oppUnitHTML);
         $( oppUnitHTML ).appendTo( ".filter-operating_unit-checkboxes" );
+      });
+}
+
+function build_sub_regions_filter(){
+  var checkToggle  = $(".filter.sub_region span");
+
+  checkToggle.on("click.select2",function(){
+
+    if ( checkToggle.hasClass("checked") ){
+      checkToggle.html("Select All");
+      $("#sub_region-filter").multiselect("deselectAll",false).multiselect('refresh');
+      markers.clearLayers();
+      $("#results-summary").html('');
+      checkToggle.removeClass("checked");
+    } else {
+      checkToggle.html("Unselect All");
+      $("#sub_region-filter").multiselect("selectAll",false).multiselect('refresh');
+      checkToggle.addClass("checked");
+    }
+  });
+
+    $.getJSON("/api/leads/sub_region")
+      .done(function(data){
+        var subRegHTML = '';
+        _.each(data,function(item){
+          _state.setFilter('sub_region',{value:item}, true);
+          var subRegChoice = '<div class="sub_region-filter-choice" id="' + item + '"><label><input id="filter-sub_region-checkbox" type="checkbox" value="'+item+'" onchange="_state.setFilter(\'sub_region\', this)" checked>'+item+'</label><br /></div>';
+          subRegHTML += subRegChoice;
+        });
+
+        $( subRegHTML ).appendTo( ".filter-sub_region-checkboxes" );
+      });
+}
+
+function build_obligation_year_filter(){
+  var checkToggle  = $(".filter.obligation_year span");
+
+  checkToggle.on("click.select2",function(){
+
+    if ( checkToggle.hasClass("checked") ){
+      checkToggle.html("Select All");
+      $("#obligation_year-filter").multiselect("deselectAll",false).multiselect('refresh');
+      markers.clearLayers();
+      $("#results-summary").html('');
+      checkToggle.removeClass("checked");
+    } else {
+      checkToggle.html("Unselect All");
+      $("#obligation_year-filter").multiselect("selectAll",false).multiselect('refresh');
+      checkToggle.addClass("checked");
+    }
+  });
+
+    $.getJSON("/api/leads/obligation_year")
+      .done(function(data){
+
+        
+
+        var obYearHTML = '';
+        _.each(data,function(item){
+          console.log("=============================================================")
+          _state.setFilter('obligation_year',{value:item}, true);
+          var obYearChoice = '<div class="obligation_year-filter-choice" id="' + item + '"><label><input id="filter-obligation_year-checkbox" type="checkbox" value="'+item+'" onchange="_state.setFilter(\'obligation_year\', this)" checked>'+item+'</label><br /></div>';
+          obYearHTML += obYearChoice;
+        });
+
+        $( obYearHTML ).appendTo( ".filter-obligation_year-checkboxes" );
+      });
+}
+
+function build_fund_source_filter(){
+  var checkToggle  = $(".filter.fund_source span");
+
+  checkToggle.on("click.select2",function(){
+
+    if ( checkToggle.hasClass("checked") ){
+      checkToggle.html("Select All");
+      $("#fund_source-filter").multiselect("deselectAll",false).multiselect('refresh');
+      markers.clearLayers();
+      $("#results-summary").html('');
+      checkToggle.removeClass("checked");
+    } else {
+      checkToggle.html("Unselect All");
+      $("#fund_source-filter").multiselect("selectAll",false).multiselect('refresh');
+      checkToggle.addClass("checked");
+    }
+  });
+
+    $.getJSON("/api/leads/fund_source")
+      .done(function(data){
+        var fundSourceHTML = '';
+        _.each(data,function(item){
+          _state.setFilter('fund_source',{value:item}, true);
+          var fundSourceChoice = '<div class="fund_source-filter-choice" id="' + item + '"><label><input id="filter-fund_source-checkbox" type="checkbox" value="'+item+'" onchange="_state.setFilter(\'fund_source\', this)" checked>'+item+'</label><br /></div>';
+          fundSourceHTML += fundSourceChoice;
+        });
+
+        $( fundSourceHTML ).appendTo( ".filter-fund_source-checkboxes" );
       });
 }
 
@@ -638,7 +737,7 @@ function update_map(data) {
         columns: [
             { title: "Operating Unit" },
             { title: "Project Title" },
-            { title: "Total Amount" },
+            { title: "Description" }, // TODO CHANGE TO TOTAL AMOUNT
             { title: "Country" },
             { title: "fid", visible: false }
         ]
@@ -725,6 +824,8 @@ function poulateDetailedEntryView(data) {
   // if (!data[INDEX_OF_DESCRIPTION]) {
   //   data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
   // }
+
+  console.log('hey buddy', data[INDEX_OF_LOCATIONS])
 
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
   detailedView += "<dl class=\"dl-horizontal\">";
@@ -844,7 +945,7 @@ function DataState() {
   this.filterRegions = []; // populates/changes on filter && intial load
   this.filterOpUnit = [];
   this.filterSubRegions = []
-  this.filterObFiscalyear = []
+  this.filterObFiscalYear = []
   this.filterFundSource = []
 
   /* DEPRECATED */
@@ -923,11 +1024,9 @@ DataState.prototype.filter = function () {
     inCountries = _.intersection( this.filterCountries, element.countries_list).length > 0;
     inRegions = _.intersection( this.filterRegions, element.dos_regions).length > 0;
     inOpUnit = _.intersection( this.filterOpUnit, [element.opp_unit]).length > 0;
-    inSubRegions = _.intersection( this.filterSubRegions, element.sub_region).length > 0;
-    inObFiscalYear = _.intersection( this.filterObFiscalyear, element.obligation_year).length > 0;
-    inFundSource = _.intersection( this.filterFundSource, element.fund_source).length > 0;
-
-
+    inSubRegions = _.intersection( this.filterSubRegions, [element.sub_region]).length > 0;
+    inObFiscalYear = _.intersection( this.filterObFiscalYear, [element.obligation_year]).length > 0;
+    inFundSource = _.intersection( this.filterFundSource, [element.fund_source]).length > 0;
 
     /* DEPRECATED */
     // sectors selected
@@ -959,8 +1058,11 @@ DataState.prototype.filter = function () {
        inTerms = (new RegExp(this.filterTerms.join("|")).test(splitElement));
     }
 
-    console.log(inOpUnit)
-    return inCountries && inSize && inTerms && inRegions && inOpUnit; //&& isInMapBounds;
+    // console.log(inSubRegions) // TODO: guilty until proven innocent (aka not sure if this works yet since no data)
+    console.log(inObFiscalYear)
+
+
+    return inCountries && inSize && inTerms && inRegions && inOpUnit && inSubRegions && inFundSource && inObFiscalYear; //&& isInMapBounds;
   }
 
   newData = this.data.filter(applyFilter.bind(this));
@@ -988,24 +1090,22 @@ DataState.prototype.setFilter = function (type, option, initial) {
       break;
 
     case 'operating_unit':
-      console.log('hello');
       if (option.checked || initial) {
         this.filterOpUnit.push(option.value);
         if(!option.checked) {
           this.initialOpUnit.push(option.value); // intial load
         }
-        console.log('restored array should be ', this.filterOpUnit)
+        //console.log('restored array should be ', this.filterOpUnit)
       }
       else {
         this.filterOpUnit = _.remove(this.filterOpUnit, function(op) {
            return op != option.value;
         });
-        console.log('empty array should be ', this.filterOpUnit)
+        //console.log('empty array should be ', this.filterOpUnit)
       }
       break;
 
     case 'operating_unit-all-remove':
-    console.log('hello2')
     $('.filter-operating_unit.active')
         .find('input[type=checkbox]')
         .prop('checked', false);
@@ -1018,8 +1118,98 @@ DataState.prototype.setFilter = function (type, option, initial) {
         .find('input[type=checkbox]')
         .prop('checked', true);
       this.filterOpUnit = this.initialOpUnit;
-      console.log(this.filterOpUnit)
-      console.log(this.initialOpUnit)
+      //console.log(this.filterOpUnit)
+      //console.log(this.initialOpUnit)
+      break;
+
+    case 'sub_region':
+      if (option.checked || initial) {
+        this.filterSubRegions.push(option.value);
+        if(!option.checked) {
+          this.initialSubRegions.push(option.value); // intial load
+        }
+      }
+      else {
+        this.filterSubRegions = _.remove(this.filterSubRegions, function(subreg) {
+           return subreg != option.value;
+        });
+      }
+      break;
+
+    case 'sub_region-all-remove':
+    $('.filter-sub_region.active')
+        .find('input[type=checkbox]')
+        .prop('checked', false);
+      this.filterSubRegions = [];
+
+      break;
+
+    case 'sub_region-all-select':
+      $('.filter-sub_region.active')
+        .find('input[type=checkbox]')
+        .prop('checked', true);
+      this.filterSubRegions = this.initialSubRegions;
+      break;
+
+    case 'obligation_year':
+      if (option.checked || initial) {
+        this.filterObFiscalYear.push(parseInt(option.value,10));
+        if(!option.checked) {
+          this.initialObFiscalYear.push(option.value); // intial load
+        }
+      }
+      else {
+        console.log('or else what? exactly')
+        this.filterObFiscalYear = _.remove(this.filterObFiscalYear, function(obFisc) {
+          console.log('ob is', obFisc)
+           return obFisc != option.value;
+        });
+        console.log(this.filterObFiscalYear)
+      }
+      break;
+
+    case 'obligation_year-all-remove':
+    $('.filter-obligation_year.active')
+        .find('input[type=checkbox]')
+        .prop('checked', false);
+      this.filterObFiscalYear = [];
+
+      break;
+
+    case 'obligation_year-all-select':
+      $('.filter-obligation_year.active')
+        .find('input[type=checkbox]')
+        .prop('checked', true);
+      this.filterObFiscalYear = this.initialObFiscalYear;
+      break;
+
+    case 'fund_source':
+      if (option.checked || initial) {
+        this.filterFundSource.push(option.value);
+        if(!option.checked) {
+          this.initialFundSource.push(option.value); // intial load
+        }
+      }
+      else {
+        this.filterFundSource = _.remove(this.filterFundSource, function(ob) {
+           return ob != option.value;
+        });
+      }
+      break;
+
+    case 'fund_source-all-remove':
+    $('.filter-fund_source.active')
+        .find('input[type=checkbox]')
+        .prop('checked', false);
+      this.filterFundSource = [];
+
+      break;
+
+    case 'fund_source-all-select':
+      $('.filter-fund_source.active')
+        .find('input[type=checkbox]')
+        .prop('checked', true);
+      this.filterFundSource = this.initialFundSource;
       break;
 
     case 'region':

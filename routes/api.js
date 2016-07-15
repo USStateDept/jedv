@@ -237,7 +237,7 @@ module.exports = function(app, passport) {
       .distinct('fid')
       .orderBy('fid')
       .then(function(collection) {
-        res.status(200).json(collection);
+        res.status(200).json(_.uniq(collection.map(c =>{ return c.sub_region})));
       });
   });
 
@@ -247,7 +247,7 @@ module.exports = function(app, passport) {
       .distinct('fid')
       .orderBy('fid')
       .then(function(collection) {
-        res.status(200).json(collection);
+        res.status(200).json(_.uniq(collection.map(c =>{ return c.obligation_year})));
       });
   });
 
@@ -257,7 +257,7 @@ module.exports = function(app, passport) {
       .distinct('fid')
       .orderBy('fid')
       .then(function(collection) {
-        res.status(200).json(collection);
+        res.status(200).json(_.uniq(collection.map(c =>{ return c.fund_source})));
       });
   });
 
