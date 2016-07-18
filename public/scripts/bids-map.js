@@ -1,5 +1,18 @@
 'use strict';
 
+$(document).ready(function() {
+  $('#map-view').hide();
+  $('#subscribe-form-modal').hide();
+
+  var token = document.cookie.match(/^(.*;)?BIDS_ENTRY_CONTROL_TOKEN=[^;]+(.*)?$/);
+  // TODO: comment back
+  if (!token || token == null || token == -1) {
+    console.log('not logged in!');
+    var url = "login";
+    $(location).attr("href", url);
+  }
+});
+
    var moneyFormat = wNumb({
     	prefix: '$',
     	thousand: ','
@@ -473,7 +486,6 @@ function build_obligation_year_filter(){
 
         var obYearHTML = '';
         _.each(data,function(item){
-          console.log("=============================================================")
           _state.setFilter('obligation_year',{value:item}, true);
           var obYearChoice = '<div class="obligation_year-filter-choice" id="' + item + '"><label><input id="filter-obligation_year-checkbox" type="checkbox" value="'+item+'" onchange="_state.setFilter(\'obligation_year\', this)" checked>'+item+'</label><br /></div>';
           obYearHTML += obYearChoice;

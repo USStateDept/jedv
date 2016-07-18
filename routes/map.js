@@ -12,7 +12,7 @@ module.exports = function(app, passport) {
             .then(function(leads){
                 //console.log("leads =======> ",leads);
             });
-		res.render('map', { title: 'BIDs', map: true });
+		res.render('map', { title: 'JEDV', map: true });
 	});
  
 };
