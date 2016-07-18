@@ -816,7 +816,7 @@ function poulateDetailedEntryView(data) {
 
   function createTagHtml(tag, data, className) {
     return $("<" + tag +  ">", {
-      'text': data,
+      'text': !data ? "n/a" : data,
       'class': className
     })[0].outerHTML;
   }
@@ -844,7 +844,7 @@ function poulateDetailedEntryView(data) {
   detailedView += "<dl class=\"dl-horizontal\">";
   detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', data[INDEX_OF_TOTAL_AMOUNT]);
+  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', nFormatter(parseInt(data[INDEX_OF_TOTAL_AMOUNT]), 2));
   detailedView += createTagHtml('dt', 'Appropriation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_APPROPRIATION_YEAR]);
   detailedView += createTagHtml('dt', 'Obligation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_OBLIGATION_YEAR]);
   detailedView += createTagHtml('dt', 'Fund Source') + createTagHtml('dd', data[INDEX_OF_FUND_SOURCE]);
