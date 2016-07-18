@@ -77,33 +77,33 @@ app.use(function(req, res, next) {
 });
 
 // EntryControl settings
-var EC = new EntryControl({
-  protocols: ["ip"],
-  allowedIpRange: ['127.0.0.1'],
-  protectedRoutes: [
-    {path: '/api/leads' , method: 'POST'}, // adding a lead ?
-    {path: '/api/leads' , method: 'PUT'}, // updating a lead ?
-    {path: '/leadform' , method: 'POST'}, // adding a lead
-    {path: '/leadform' , method: 'PUT'} // updating a lead
-  ],
-  limitedRoutes: [
-    {path: '/' , method: 'GET'}  // lets give a token on entry (if applicable)
-  ],
-  logging: app.get('env') == 'production' ? false : true
-});
+// var EC = new EntryControl({
+//   protocols: ["ip"],
+//   allowedIpRange: ['127.0.0.1'],
+//   protectedRoutes: [
+//     {path: '/api/leads' , method: 'POST'}, // adding a lead ?
+//     {path: '/api/leads' , method: 'PUT'}, // updating a lead ?
+//     {path: '/leadform' , method: 'POST'}, // adding a lead
+//     {path: '/leadform' , method: 'PUT'} // updating a lead
+//   ],
+//   limitedRoutes: [
+//     {path: '/' , method: 'GET'}  // lets give a token on entry (if applicable)
+//   ],
+//   logging: app.get('env') == 'production' ? false : true
+// });
 
 // hook in IP/Token Protection - EntryControl
-app.use(function (req, res, next) {
-  var verdict = EC.gatewayVerification(req); // returns pass message and token
-  if(verdict.pass === true && verdict.token) {
-    res.cookie("BIDS_ENTRY_CONTROL_TOKEN" , verdict.token);
-    next();
-  } else if (verdict.pass) {
-    next();
-  } else  {
-    res.status(401).send("Access Denied for unauthorized user");
-  }
-});
+// app.use(function (req, res, next) {
+//   var verdict = EC.gatewayVerification(req); // returns pass message and token
+//   if(verdict.pass === true && verdict.token) {
+//     res.cookie("BIDS_ENTRY_CONTROL_TOKEN" , verdict.token);
+//     next();
+//   } else if (verdict.pass) {
+//     next();
+//   } else  {
+//     res.status(401).send("Access Denied for unauthorized user");
+//   }
+// });
 
 require('./routes/index.js')(app,passport,envNunjucks,appRoot);
 require('./routes/map.js')(app,passport);

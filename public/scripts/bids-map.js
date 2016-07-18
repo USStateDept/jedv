@@ -1,21 +1,5 @@
 'use strict';
 
-$(document).ready(function() {
-  $('#map-view').hide();
-
-  var token = document.cookie.match(/^(.*;)?BIDS_ENTRY_CONTROL_TOKEN=[^;]+(.*)?$/);
-  // TODO: comment back
-  if (!token || token == null || token == -1) {
-    console.log('not logged in!');
-    var url = "login";
-    $(location).attr("href", url);
-  }
-  else {
-    $('#map-view').show();
-
-  }
-});
-
    var moneyFormat = wNumb({
     	prefix: '$',
     	thousand: ','

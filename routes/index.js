@@ -25,7 +25,10 @@ module.exports = function(app, passport, envNunjucks, appRoot) {
     dest: appRoot + '/public/uploads/'
   });
 
+
   app.get('/', function(req, res, next) {
+
+
     var user = null;
     var loggedIn = req.isAuthenticated();
     var show_overlay = true;
@@ -38,15 +41,22 @@ module.exports = function(app, passport, envNunjucks, appRoot) {
       show_overlay = false;
     }
 
-    res.render('map', {
-      title: 'Express',
-      user: user,
-      loggedIn: loggedIn,
-      overlay: show_overlay,
-      infoMessages: infoMessages,
-      messages: messages,
-      map: true
-    });
+    if(req.user && loggedIn) {
+      res.render('map', {
+        title: 'Express',
+        user: user,
+        loggedIn: loggedIn,
+        overlay: show_overlay,
+        infoMessages: infoMessages,
+        messages: messages,
+        map: true
+      });
+    } else {
+      req.user = null;
+       res.redirect('/login');
+    }
+
+    
   });
 
   app.get('/faq', function(req, res, next) {
@@ -556,9 +566,11 @@ module.exports = function(app, passport, envNunjucks, appRoot) {
 
   app.get('/logout', function(req, res) {
     req.logout();
-    req.session.destroy(function (err) {
-      res.redirect('/login'); //Inside a callback… bulletproof!
-    });
+    req.session.destroy();
+    res.redirect('/login');
+    // req.session.destroy(function (err) {
+    //   res.redirect('/login'); //Inside a callback… bulletproof!
+    // });
   });
 
 };
