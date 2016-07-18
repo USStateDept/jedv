@@ -710,10 +710,6 @@ function update_map(data) {
         $('#leads-table').DataTable().destroy();
       }
 
-      var SIZE_TABLE_INDEX = 3;
-
-      console.log('Data table is: ', datatableData)
-
       //recreating the datatable
       var table = $('#leads-table').DataTable({
         data: datatableData === [] ? null : datatableData,
@@ -728,22 +724,23 @@ function update_map(data) {
             targets: [0, 1, 2, 3], 
             visible: true,
 
+            // display right data in rows
+            data: function (row, type, val, meta) {
 
-/*            data: function (row, type, val, meta) {
-              console.log(column().index())
-              if (2 == 3) {
-
-              var size = row[SIZE_TABLE_INDEX];
+              if (meta.col ==  2) { // for formatting total amount
+              var size = row[3];
               var value = parseInt(size) || 0;
 
-              if (type === 'display') {
-                value = nFormatter(parseInt(value), 2);
-              }
+              value = nFormatter(parseInt(value), 2);
 
-              }
+            return value;
+            }
 
-            return row.Name; 
-            }*/
+            else if (meta.col == 3)
+              return row[18]
+
+            return row[meta.col];
+            }
           },
 
           {
@@ -802,7 +799,7 @@ function poulateDetailedEntryView(data) {
   var INDEX_OF_COUNTRY = 18;
   var INDEX_OF_REGION = 19;
   var INDEX_OF_SUB_REGION = 13;
-  var INDEX_OF_LOCATIONS = 14;
+  var INDEX_OF_LOCATIONS = 18; // TODO: change back to 14
   var INDEX_OF_PROJECT_THEME = 15;
   var INDEX_OF_PROJECT_POCS = 16;
   var INDEX_OF_PUBLIC_WEBSITE = 17;
