@@ -129,9 +129,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-console.log("probably won't get here");
-
-
 if (app.get('env') === 'production') {
   // production error handler
   // no stacktraces leaked to user
@@ -145,7 +142,7 @@ if (app.get('env') === 'production') {
 }
 
 app.listen(80, function () {
-  console.log('JEDV is listening on port 80!');
+  console.log('JEDV has successfully started on port 80.');
 });
 
 module.exports = app;

@@ -710,7 +710,9 @@ function update_map(data) {
         $('#leads-table').DataTable().destroy();
       }
 
-      var SIZE_TABLE_INDEX = 1;
+      var SIZE_TABLE_INDEX = 3;
+
+      console.log('Data table is: ', datatableData)
 
       //recreating the datatable
       var table = $('#leads-table').DataTable({
@@ -721,23 +723,38 @@ function update_map(data) {
         language: {
           infoEmpty: "No entries to show"
         },
-        columnDefs: [ {
-          targets: SIZE_TABLE_INDEX,
-          data: function ( row, type, val, meta ) {
-            var size = row[SIZE_TABLE_INDEX];
-            var value = parseInt(size) || 0;
+        columnDefs: [
+          {
+            targets: [0, 1, 2, 3], 
+            visible: true,
 
-            if(type === 'display') {
-              value = nFormatter(parseInt(value), 2);
-            }
 
-            return value;
+/*            data: function (row, type, val, meta) {
+              console.log(column().index())
+              if (2 == 3) {
+
+              var size = row[SIZE_TABLE_INDEX];
+              var value = parseInt(size) || 0;
+
+              if (type === 'display') {
+                value = nFormatter(parseInt(value), 2);
+              }
+
+              }
+
+            return row.Name; 
+            }*/
+          },
+
+          {
+            targets: '_all',
+            visible: false
           }
-        }],
+        ],
         columns: [
             { title: "Operating Unit" },
             { title: "Project Title" },
-            { title: "Description" }, // TODO CHANGE TO TOTAL AMOUNT
+            { title: "Total Amount" }, // TODO CHANGE TO TOTAL AMOUNT
             { title: "Country" },
             { title: "fid", visible: false }
         ]
@@ -825,7 +842,7 @@ function poulateDetailedEntryView(data) {
   //   data[INDEX_OF_DESCRIPTION] = "There is no description for this project.";
   // }
 
-  console.log('hey buddy', data[INDEX_OF_LOCATIONS])
+  //console.log('hey buddy', data[INDEX_OF_LOCATIONS])
 
   var detailedView = getHeaderHtml(data[INDEX_OF_PROJECT_TITLE]);
   detailedView += "<dl class=\"dl-horizontal\">";
@@ -901,7 +918,7 @@ function nFormatter(num, digits) {
  * Creates the basic DOM required for the datatables table to
  * render on the page.
  */
-function create_leads_table(data,i){
+function create_leads_table(data, i){
   if ( i === 0 ){
     $("#data-table").html("<table class='table' id='leads-table'><thead></thead><tbody></tbody></table>");
   }
