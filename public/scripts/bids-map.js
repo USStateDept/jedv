@@ -2,7 +2,6 @@
 
 $(document).ready(function() {
   $('#map-view').hide();
-  $('#subscribe-form-modal').hide();
 
   var token = document.cookie.match(/^(.*;)?BIDS_ENTRY_CONTROL_TOKEN=[^;]+(.*)?$/);
   // TODO: comment back
@@ -13,7 +12,7 @@ $(document).ready(function() {
   }
   else {
     $('#map-view').show();
-    $('#subscribe-form-modal').show();
+
   }
 });
 
