@@ -11,6 +11,10 @@ $(document).ready(function() {
     var url = "login";
     $(location).attr("href", url);
   }
+  else {
+    $('#map-view').show();
+    $('#subscribe-form-modal').show();
+  }
 });
 
    var moneyFormat = wNumb({
