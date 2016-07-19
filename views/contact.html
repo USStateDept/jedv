@@ -2,53 +2,15 @@
 	{% block hamburger %}
 {% endblock %} {% block content %}
 
-<div class="container section--contact">
+<div class="container section--about-bids"> <!-- TODO: fix css for section contact-->
 	<div class="row">
 		<div class="jumbotron">
-	    <h2>Thank you for using BIDS!</h2>
-			<p>We are working constantly to improve BIDS and are eager for your feedback. Please fill out the 4-question survey below to help us improve.
-			Survey input is anonymous.</p>
+	    <h2>Thank you for using JEDV!</h2>
+			<p>We are working constantly to improve JEDV and are eager for your feedback.</p>
 			<p>
-				If you have other questions, you may also contact us via email at <a href="mailto:BIDS-Mailbox@state.gov">BIDS-Mailbox@state.gov</a>.
+				If you have any questions, please contact <a href="mailto:steppDN@state.gov">steppDN@state.gov</a>.
 			</p>
 	  </div>
-		</br>
-		<div>
-			<p>Are you a private company or USG user? Please select one to pull up the survey relevant to your experience.</p>
-			<label class="radio-inline">
-	      <input type="radio" name="usertype" value="private">Private company (non-U.S. government)
-			</label>
-			<label class="radio-inline">
-				<input type="radio" name="usertype" value="usg"> USG user
-			</label>
-		</div>
-
-		<div class="feedback-forms">
-			{% for feedback in feedbacks %}
-				<form role="form" method="post" action="/feedback?type={{ feedback.feedback_type }}" id={{ feedback.feedback_type }} name={{ feedback.feedback_type }}>
-					<fieldset class="form-group">
-						{% for question in feedback.questions %}
-							<div class="form-group">
-								<label for="{{question.question_name}}">{{ question.question_text }}</label>
-								<p class="text-muted">{{question.question_description}}</p>
-								{% if question.inputType.input_type_name == "select" %}
-									<select name="{{question.question_name}}" id="{{question.question_name}}" class='form-control select2' required>
-										{% for optionChoice in question.optionGroup.optionChoices %}
-											<option value={{ optionChoice.option_choice_name }}>{{ optionChoice.option_choice_name }}</option>
-										{% endfor %}
-									</select>
-								{% elif question.inputType.input_type_name == "text" %}
-									<textarea class="form-control" id="{{question.question_name}}" name="{{question.question_name}}" rows="3"></textarea>
-								{% endif %}
-							</div>
-						{% else %}
-							<li>This would display if the 'item' collection were empty</li>
-						{% endfor %}
-						<button type="submit" class="btn btn-default">Add Feedback</button>
-					</fieldset>
-				</form>
-			{% endfor %}
-		</div>
 	</div>
 </div>
 

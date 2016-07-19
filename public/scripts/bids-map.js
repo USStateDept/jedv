@@ -844,15 +844,15 @@ function poulateDetailedEntryView(data) {
   detailedView += "<dl class=\"dl-horizontal\">";
   detailedView += createTagHtml('dt', 'Operating Unit') + createTagHtml('dd', data[INDEX_OF_OPP_UNIT]);
   detailedView += createTagHtml('dt', 'Country') + createTagHtml('dd', data[INDEX_OF_COUNTRY]);
-  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', nFormatter(parseInt(data[INDEX_OF_TOTAL_AMOUNT]), 2));
+  detailedView += createTagHtml('dt', 'Total amount') + createTagHtml('dd', formatMoney(parseInt(data[INDEX_OF_TOTAL_AMOUNT]), 2));
   detailedView += createTagHtml('dt', 'Appropriation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_APPROPRIATION_YEAR]);
   detailedView += createTagHtml('dt', 'Obligation Fiscal Year') + createTagHtml('dd', data[INDEX_OF_OBLIGATION_YEAR]);
   detailedView += createTagHtml('dt', 'Fund Source') + createTagHtml('dd', data[INDEX_OF_FUND_SOURCE]);
   detailedView += createTagHtml('dt', 'Implementing Partner') + createTagHtml('dd', data[INDEX_OF_IMPLEMENTING_PARTNER]);
   detailedView += createTagHtml('dt', 'Award Number') + createTagHtml('dd', data[INDEX_OF_AWARD_NUMBER]);
   detailedView += createTagHtml('dt', 'Funding Mechanism') + createTagHtml('dd', data[INDEX_OF_FUND_MECHANISM]);
-  detailedView += createTagHtml('dt', 'Performance Start Date') + createTagHtml('dd', data[INDEX_OF_PERFORM_START_DATE]);
-  detailedView += createTagHtml('dt', 'Performance End Date') + createTagHtml('dd', data[INDEX_OF_PERFORM_END_DATE]);
+  detailedView += createTagHtml('dt', 'Performance Start Date') + createTagHtml('dd', formatDate(data[INDEX_OF_PERFORM_START_DATE]));
+  detailedView += createTagHtml('dt', 'Performance End Date') + createTagHtml('dd', formatDate(data[INDEX_OF_PERFORM_END_DATE]));
   detailedView += createTagHtml('dt', 'Region') + createTagHtml('dd', data[INDEX_OF_REGION]);
   detailedView += createTagHtml('dt', 'Sub Region') + createTagHtml('dd', data[INDEX_OF_SUB_REGION]);
   detailedView += createTagHtml('dt', 'Other Geographic') + createTagHtml('dd', data[INDEX_OF_LOCATIONS]);
@@ -879,6 +879,11 @@ function poulateDetailedEntryView(data) {
 
   detailedView += "<div>";
   $('.section--detailed-lead').html(detailedView);
+}
+
+function formatMoney(num)
+{
+  return "$" + num.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "";
 }
 
 /**
