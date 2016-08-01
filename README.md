@@ -1,1 +1,1 @@
-# J Enterprise Data View (JEDV)
+# J Enterprise Data Interface (JEDI)
